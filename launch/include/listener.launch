@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="node_name" default="listener" />
+  <node name="$(arg node_name)" pkg="rospy_tutorials" type="listener.py" />
+    
+</launch>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- XXX make sure to $ sudo pigpiod ... since we are using a different pwm library for rpi -->
+    <node pkg="agbot_0" type="rpi_servo.py" name="steering_node" />
+
+</launch>

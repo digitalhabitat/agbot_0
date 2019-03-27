@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- XXX This launch file is use to remotely launch nodes on the raspberry pi 3 b+ with a local machine-->
+  <!-- XXX Make sure ROS_MASTER_URI='http://rc-car.local:11311' to run this launch file -->
+  <!-- XXX Make sure you can also log into the rpi with 'ssh ubuntu@rc-car' -->
+  <!-- XXX For first time setup run <ssh unbuntu@rc-car -oHostKeyAlgorithms='ssh-rsa'> -->
+  <!-- XXX See https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md -->
+  <!-- XXX If the rpi did not connect to a known network it will start its own hotspot -->
+  <!-- XXX see physical device for login details--> 
+
+
+  <group ns="rpi">
+    <machine name="remote_rpi" address="rc-car" env-loader="/home/ubuntu/catkin_ws/src/agbot_0/env.sh" user="ubuntu" default="true"/>
+  
+    ### talker
+    <include file="$(find agbot_0)/launch/rpi/talker.launch" >
+        <arg name="node_name" default="talker_3000" />
+    </include>
+
+    ### listener
+    <include file="$(find agbot_0)/launch/tx2/listener.launch">
+        <arg name="node_name" default="listener_900c" />
+    </include>
+  
+  </group>>
+
+</launch>

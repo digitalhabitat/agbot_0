@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="port" default="/dev/ttyACM1"/>
+  <arg name="baud" default="9600"/>
+  <arg name="gps_topic_name" default="/gps/fix"/>
+
+  <!-- XXX: For tcp postion output -->
+  <!-- BIG ONE (REACH RS+) CORRECTION COMES IN AT 192.168.1.241:9001  -->
+  <!-- SMALL ONE (REACH M+) CORRECTION COMES IN AT 192.168.1.242:9009  or ***.0.76-->
+  <!-- <node pkg="reach_ros_node" type="nmea_tcp_driver" name="reach_gps">
+	<param name="~host"             value="192.168.1.247" />
+	<param name="~port"             value="9009" />
+    <remap from="/tcpfix" to="/gps/fix"/>
+  </node> -->
+
+  <!-- XXX: For serial position ouput -->
+  <!-- XXX: EMLID REACH BROSWER APPLICATION WILL DISPLAY INCORRECT /DEV/TTY NAME  -->
+  <!-- XXX: use $'dmesg <double dash>follow   ...then uplug/replug usb device to determine tty name -->
+  <!-- XXX: building nmea_navsat_driver from source for removing automatic prefixing of forward slash to frame id -->
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" respawn="true">
+	  <param name="port"     value="$(arg port)" />
+	  <param name="baud"     value="$(arg baud)" /> 
+    <remap from="/fix"     to="$(arg gps_topic_name)" />
+  </node>
+
+</launch>
+         

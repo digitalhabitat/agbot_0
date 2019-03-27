@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="node_name" default="talker"/>
+  <node name="$(arg node_name)" pkg="rospy_tutorials" type="talker.py" />
+    
+</launch>

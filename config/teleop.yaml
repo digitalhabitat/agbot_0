@@ -1,0 +1,23 @@
+teleop:
+  steering:
+    type: topic
+    message_type: ackermann_msgs/AckermannDrive
+    topic_name: ackermann_steering
+    deadman_buttons: [1] # X button
+    axis_mappings:
+      -
+        axis: 0 # left joystick
+        target: steering_angle
+        scale: -1000
+        offset: 1000
+  roboclaw_3:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: roboclaw/cmd_vel 
+    deadman_buttons: [1] # X button
+    axis_mappings:
+      -
+        axis: 4 # right shoulder trigger to control wheel speed
+        target: linear.x
+        scale: -0.05
+        offset: 0.05

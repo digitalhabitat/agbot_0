@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<launch>
+
+ 
+<!-- roboclaw_node parameters -->   
+<!-- This is the production launch file to be used with the real roboclaw device updated with a service node-->
+<!-- Wheels max acceleration m/s^2 (TODO: split in angular and linear acceleration) -->
+<!-- 1120 ticks/rev ; 6.2 inch diam ; 0.494792 m/rev -->
+    <arg name="dev"             default="/dev/tty_roboclaw"/>
+    <arg name="baud"            default="115200"/>
+    <arg name="address"         default="128"/>
+    <arg name="max_speed"       default="1.0"/>
+    <arg name="ticks_per_meter" default="111"/>
+    <arg name="base_width"      default="0.315"/>
+    <arg name="run_diag"        default="true"/>
+    <arg name="twist_command"   default="roboclaw/cmd_vel"/>
+    <!-- make sure type = "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term--> 
+    <node if="$(arg run_diag)" pkg="roboclaw_node" type="roboclaw_node.py" name="roboclaw_node">
+        <param name="~dev" value="$(arg dev)"/>
+        <param name="~baud" value="$(arg baud)"/>
+        <param name="~address" value="$(arg address)"/>
+        <param name="~max_speed" value="$(arg max_speed)"/>
+        <param name="~ticks_per_meter" value="$(arg ticks_per_meter)"/>
+        <param name="~base_width" value="$(arg base_width)"/>
+        <param name="~twist_command" value="$(arg twist_command)"/>
+    </node>
+
+    <node pkg="diagnostic_aggregator" type="aggregator_node"
+          name="diagnostic_aggregator">
+        <rosparam command="load"
+                  file="$(find roboclaw_node)/config/roboclaw_diag.yaml"/>
+    </node>
+<!--
+    <node name="roboclaw_srvc.py" pkg="roboclaw_node" type="motor_server.py">
+    </node>
+    
+
+--> 
+
+	<node pkg="jrk_motor_node" name="jrk_subscriber" type="jrk_subscribe.py" output="screen">
+  </node>
+   
+<!-- joy_node parameters this node subscribes to sensor_msg --> 
+	  <arg name="joy_config"      default="ps4" />
+  	<arg name="joy_dev"         default="/dev/input/js0" /> 	
+    <arg name="config_filepath" default="$(find teleop_twist_joy)/config/$(arg joy_config).config.yaml" />  
+	  <node  pkg="joy" type="joy_node" name="joy_node">
+      <param name="dev"             value="$(arg joy_dev)" />  	 
+	    <param name="deadzone"        value="0.0" />
+      <param name="autorepeat_rate" value="1" />
+  	</node>
+
+<!-- joy_teleop node parameters... see teleop.yaml for ros message publish config--> 	
+    <rosparam command="load" file="$(find agbot_0)/config/teleop.yaml" />
+  	  <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop" >
+  	</node>
+
+<!-- turtlesim_node parameters
+    <node pkg="turtlesim" type="turtlesim_node" name="turtlesim_node" >
+  	</node> 
+    -->
+
+<!-- navsat_transform_template -->
+		<node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" />
+    <remap from="odometry/filtered" to="odom"/>
+  
+      <!-- Placeholders for input remapping. Set your topic names as the "to" values.
+      <remap from="imu/data" to=""/>
+      remap from="odometry/filtered" to="odom"> 
+      <remap from="gps/fix" to=""/>-->
+    
+      
+
+  </node>
+
+
+#### Nodelet manager ######################################################
+
+  <node pkg="nodelet" type="nodelet" name="imu_manager" 
+    args="manager" output="screen" />
+
+  #### IMU Driver ###########################################################
+
+  <node pkg="nodelet" type="nodelet" name="PhidgetsImuNodelet" 
+    args="load phidgets_imu/PhidgetsImuNodelet imu_manager" 
+    output="screen">
+
+    # supported data rates: 4 8 16 24 32 40 ... 1000 (in ms)
+    <param name="period" value="4"/>
+
+    # optional param serial_number, default is -1
+    <!-- <param name="serial_number" value="123456"/> -->
+
+    # compass correction params (see http://www.phidgets.com/docs/1044_User_Guide)
+    <!-- <param name="cc_mag_field" value="0.52859"/>
+         <param name="cc_offset0" value="0.03921"/>
+         <param name="cc_offset1" value="0.19441"/>
+         <param name="cc_offset2" value="-0.03493"/>
+         <param name="cc_gain0" value="1.81704"/>
+         <param name="cc_gain1" value="1.81028"/>
+         <param name="cc_gain2" value="2.04819"/>
+         <param name="cc_t0" value="0.00142"/>
+         <param name="cc_t1" value="-0.03591"/>
+         <param name="cc_t2" value="0.00160 "/>
+         <param name="cc_t3" value="-0.05038"/>
+         <param name="cc_t4" value="-0.03942"/>
+         <param name="cc_t5" value="-0.05673"/> -->
+  </node>
+
+  #### IMU Orientation Filter ###############################################
+
+  <node pkg="nodelet" type="nodelet" name="ImuFilterNodelet" 
+    args="load imu_filter_madgwick/ImuFilterNodelet imu_manager" 
+    output="screen">
+
+    <param name="use_mag" value="true"/>
+    <param name="use_magnetic_field_msg" value="true"/>
+  </node>
+
+ #### GPS Driver #############################################################
+
+	<node pkg="reach_ros_node" type="nmea_tcp_driver" name="reach_gps">
+		<param name="~host"             value="192.168.1.241" />
+		<param name="~port"             value="9001" />
+    <remap from="tcpfix" to="gps/fix"/>
+	</node>		
+
+ #### GPS Orientiation Filter ################################################
+<!-- 
+  <node pkg="nodelet" type="nodelet" name="GPSFilterNodelet" 
+    args="load " 
+    output="screen">
+
+  </node>
+-->
+
+  
+	<node pkg="mapviz" type="mapviz" name="mapviz">
+
+  </node>
+
+  <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
+    <param name="local_xy_frame" value="/map"/>
+    <param name="local_xy_origin" value="stutz_window"/>
+    <rosparam param="local_xy_origins">
+      [{ name: stuz_window,
+         latitude: 39.7801428483,
+         longitude: -86.16231641,
+         altitude: 188.673,
+         heading: 0.0},
+         
+       { name: back_40,
+         latitude: 29.447507,
+         longitude: -98.629367,
+         altitude: 200.0,
+         heading: 0.0}]
+    </rosparam>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 /map /origin 100"  />
+ 
+<!--  Transforms
+These are the measurements in meters for your sensors (x y z yaw pitch roll) x forward y left z up
+-->
+        <node pkg="tf" type="static_transform_publisher"
+                name="footprint_transform"
+                args="0 0 -0.1 0 0 0 base_link footprint 10" />
+        <node pkg="tf" type="static_transform_publisher"
+                name="gps_transform"
+                args="0 0 0.8128 0 0 0 base_link gps 10" />
+        <node pkg="tf" type="static_transform_publisher"
+                name="imu_transform"
+                args="1 0 0.250 2.08 0 0 base_link base_imu_link 10" />
+        <node pkg="tf" type="static_transform_publisher"
+                name="odom2base_transform"
+                args="0 0 0 0 0 0 imu base_link 10" />
+          <node pkg="tf" type="static_transform_publisher"
+                name="world_transform"
+                args="0 0 0 0 0 0 imu base_link 10" />
+            <node pkg="tf" type="static_transform_publisher"
+                name="okay"
+                args="10 10 0 0 0 0 world odom 10" />
+          <node pkg="tf" type="static_transform_publisher"
+                name="plesework"
+                args="0 0 0 0 0 0 world map 10" />
+
+    <node name="fix_translator" pkg="gps_common" type="fix_translator">
+    <!-- Translate from NavSatFix to GPSFix //-->
+      <remap from="/navsat_fix_in"  to="/odometry/gps"/>
+      <remap from="/gps_fix_out"    to="/new_gps"/>
+  </node>
+
+
+  ## robot model launch ##
+  <arg name="model" default="/home/nvidia/catkin_ws/src/agbot_0/urdf/block.urdf" />
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+        
+
+## view TF FRAMES ##
+ <node name="rqt_tf_tree_node" pkg="rqt_tf_tree" type="rqt_tf_tree" />
+ <node name="rqt_graph_node" pkg="rqt_graph" type="rqt_graph" />
+</launch>

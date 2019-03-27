@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- roboclaw_node parameters -->   
+	<!-- This is the production launch file to be used with the real roboclaw device updated with a service node-->
+	<!-- Wheels max acceleration m/s^2 (TODO: split in angular and linear acceleration) -->
+	<!-- drive wheel radius = 6 centimeters = 0.06 meters -->	
+	<!-- (42 ticks/revolution) divide by (2*pi*radius_meters/revolution) -->
+	<!-- use math above to get ticks_per_meters = 111.41-->
+	<!-- base width is the length between left and right rear wheels -->
+    <arg name="dev" default="/dev/ttyACM0"/>
+    <arg name="baud" default="115200"/>
+    <arg name="address" default="128"/>
+    <arg name="max_speed" default="2.0"/>
+    <arg name="ticks_per_meter" default="111.41"/>
+    <arg name="base_width" default="0.21"/>
+    <arg name="run_diag" default="true"/>
+
+    <!-- make sure type = "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term--> 
+    <node if="$(arg run_diag)" pkg="roboclaw_node" type="roboclaw_node.py" name="roboclaw_node">
+        <param name="~dev" value="$(arg dev)"/>
+        <param name="~baud" value="$(arg baud)"/>
+        <param name="~address" value="$(arg address)"/>
+        <param name="~max_speed" value="$(arg max_speed)"/>
+        <param name="~ticks_per_meter" value="$(arg ticks_per_meter)"/>
+        <param name="~base_width" value="$(arg base_width)"/>
+    </node>
+
+    <node pkg="diagnostic_aggregator" type="aggregator_node"
+          name="diagnostic_aggregator">
+        <rosparam command="load"
+                  file="$(find roboclaw_node)/config/roboclaw_diag.yaml"/>
+    </node>
+ 
+   
+<!-- joy_node parameters this node subscribes to sensor_msg --> 
+	  <arg name="joy_config"      default="ps4" />
+  	<arg name="joy_dev"         default="/dev/input/js0" /> 	
+    <arg name="config_filepath" default="$(find teleop_twist_joy)/config/$(arg joy_config).config.yaml" />  
+	  <node  pkg="joy" type="joy_node" name="joy_node">
+      <param name="dev"             value="$(arg joy_dev)" />  	 
+	    <param name="deadzone"        value="0.0" />
+      <param name="autorepeat_rate" value="1" />
+  	</node>
+
+<!-- joy_teleop node parameters... see teleop.yaml for ros message publish config--> 	
+    <rosparam command="load" file="$(find agbot_0)/config/teleop_rc-car.yaml" />
+  	  <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop" >
+  	</node>
+
+<node pkg="agbot_0" type="rpi_servo.py" name="steering_node" >
+  	</node>
+
+<!-- <include file="$(find agbot_0)/launch/imu.launch" /> -->
+
+<include file="$(find agbot_0)/launch/rpi/gps.launch" />
+<include file="$(find agbot_0)/launch/rpi/imu.launch" />
+
+
+
+
+<!-- https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md
+env_remote.sh (between quotes)
+"""
+#!/usr/bin/env bash
+
+source /home/agbot/catkin_ws/devel/setup.bash
+exec "$@"
+"""
+--> 
+
+
+
+
+</launch>

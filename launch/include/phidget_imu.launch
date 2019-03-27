@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="imu_topic_name" default="imu/data_fixed"/>
+    <arg name="period" default="4"/>
+    <arg name="serial_number" default="-1"/>
+    <arg name="world" default="enu"/>
+    <arg name="use_mag" default="tRUe"/>
+    <arg name="use_magnetic_field_msg" default="true"/>
+    <arg name="fixed_frame" default="odom"/>
+    <arg name="reverse_tf" default="false"/>
+    <arg name="publish_tf" default="false"/>
+
+#### Nodelet manager #############################################
+  <node pkg="nodelet" type="nodelet" name="imu_manager" 
+    args="manager" output="screen" />
+    <!-- http://wiki.ros.org/imu_filter_madgwick -->
+    <!-- XXX REMAP IMU DATA TO WORK WITH EKF SUBSCRIBED TOPIC -->
+    <!-- XXX imu/data is the fused Imu message, containing the orientation. ie. imu/data_raw + imu/mag-->
+    <remap from="imu/data" to="$(arg imu_topic_name)"/> 
+  #### IMU Driver ################################################
+  <!-- http://wiki.ros.org/phidgets_imu -->
+  <node pkg="nodelet" type="nodelet" name="PhidgetsImuNodelet" 
+    args="load phidgets_imu/PhidgetsImuNodelet imu_manager" 
+    output="screen">
+    # supported data rates: 4 8 16 24 32 40 ... 1000 (in ms)
+    <param name="period" value="$(arg period)"/>
+    # optional param serial_number, default is -1
+     <param name="serial_number" value="$(arg serial_number)"/> 
+    # compass correction params (see http://www.phidgets.com/docs/1044_User_Guide)
+    <!-- <param name="cc_mag_field" value="0.52859"/>
+         <param name="cc_offset0" value="0.03921"/>
+         <param name="cc_offset1" value="0.19441"/>
+         <param name="cc_offset2" value="-0.03493"/>
+         <param name="cc_gain0" value="1.81704"/>
+         <param name="cc_gain1" value="1.81028"/>
+         <param name="cc_gain2" value="2.04819"/>
+         <param name="cc_t0" value="0.00142"/>
+         <param name="cc_t1" value="-0.03591"/>
+         <param name="cc_t2" value="0.00160 "/>
+         <param name="cc_t3" value="-0.05038"/>
+         <param name="cc_t4" value="-0.03942"/>
+         <param name="cc_t5" value="-0.05673"/> -->
+   </node> 
+  #### IMU Orientation Filter ########################################
+  <!-- http://wiki.ros.org/imu_filter_madgwick -->
+  <node pkg="nodelet" type="nodelet" name="ImuFilterNodelet" 
+    args="load imu_filter_madgwick/ImuFilterNodelet imu_manager" 
+    output="screen">
+    <param name="world" value="$(arg world)"/>
+    <param name="use_mag" value="$(arg use_mag)"/>
+    <param name="use_magnetic_field_msg"  value="$(arg use_magnetic_field_msg)"/>
+    <param name="fixed_frame" value="$(arg fixed_frame)"/>
+    <param name="reverse_tf" value="$(arg reverse_tf)"/>
+    <param name="publish_tf" value="$(arg publish_tf)"/>
+    
+  </node>
+
+</launch>
