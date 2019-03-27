@@ -29,7 +29,7 @@
         <param name="~ticks_per_meter" value="$(arg ticks_per_meter)"/>
         <param name="~base_width" value="$(arg base_width)"/> 
         <remap from="/odom" to="$(arg odom_topic_name)" />
-        <!-- TODO param name="publish_tf" value="$(arg publish_tf)"/>
+        <!-- TODO param name="publish_tf" value="$(arg publish_tf)"--/>
 
     </node>
 
