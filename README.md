@@ -12,7 +12,7 @@ $ ros launch agbot_0 rpi.launch
 ```
 ***NOTE:*** "$ export ROS_MASTER_URI=" only needs to be run once for a given terminal. The following command can use to set the envirment variable for every new terminal.
 ```bash
-echo ROS_MASTER_URI='http://rc-car.local:11311 >> ~/.bashrc 
+echo "ROS_MASTER_URI=http://rc-car.local:11311" >> ~/.bashrc 
 ```
 This can also done by manually editing ~/.bashrc
 
