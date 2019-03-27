@@ -5,7 +5,7 @@ File structure assumptions:
 ```
 -------------
 ### Basic rc-car startup
-To launch devices nodes remotely from a local machine on to the Raspbeery Pi (rpi):
+To launch devices nodes remotely from a local machine on to the Raspberry Pi (rpi):
 ```bash
 $ export ROS_MASTER_URI='http://rc-car.local:11311'
 $ ros launch agbot_0 rpi.launch
@@ -35,30 +35,32 @@ $ ros launch agbot_0 rpi.launch
 ### Early Testing Platform
 + #### rc-car 
 	+ Raspberry Pi 3 B+ Flashed with Ubiquity Robotics Raspbeery Pi Image
-	+ Steering Servo
-	+ Roboclaw
-	+ Quadrature Encoder
+	+ Steering Servo:
+	+ Motor Controler: Roboclaw 2x15A
+	+ Quadrature Encoder: JGA25-370-12V-201rpm (only encoder)
+	+ GPS: Emlid Reach M+
+	+ IMU + Compass: PhidgetSpatial Precision 3/3/3 (1044_0B)
 
-### Main Systems and Hardware DeviceS
+### Main Systems and Hardware Devices
 
 + #### Computer System
-	+ Jetson TX2
+	+ Nvidia Jetson TX2
 	+ USB Hub
 	+ Playstation DS4 Controller
 
 + #### Drive System
-	+ Motor Controler: Roboclaw 2x60A
+	+ Motor Controller: Roboclaw 2x60A
 	+ Motor Encoder: US Digital (E2-500-375-NE-D-G-1)
 	+ Motor: AmpFlow Gearmotor (E30-400-G)
 
 + #### Steering System
-	+ Linear Acutor w/ Feedback
-	+ Steering Controller
+	+ Linear Acutor w/ Feedback: Glideforce LACT4P-12V-20
+	+ Steering Controller: Jrk G2 24v13
 
 + #### Odometry and Localization System
 	+ GPS: Emlid Reach M+
-	+ IMU+Compass: PhigetSpatial
-	+ INDOT RTK Correction
+	+ IMU+Compass: PhidgetSpatial Precision 3/3/3 (1044_0B)
+	+ INDOT RTK Corrections
 	+ Drive System Encoders
 	+ Visual Odometry: Intel RealSense D435
 
