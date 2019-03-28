@@ -21,7 +21,7 @@ This can also done by manually editing ~/.bashrc
 ## Basic rc-car startup (with ssh)
 Launching device nodes on the rpi directly within an ssh session:
 ```bash
-$ ssh ubnutu@rc-car
+$ ssh ubuntu@rc-car
 $ sudo pigpiod
 $ ros launch agbot_0 rpi.launch
 ```
