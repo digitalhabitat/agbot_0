@@ -37,7 +37,7 @@ $ ros launch agbot_0 rpi.launch
 	+ TBA
 
 + #### Emlid Reach M+
-	+ http://wiki.ros.org/nmea_navsat_driver
+	+ http://wiki.ros.org/nmea_navsat_driver (building from source)
 		+ nmea_serial_driver
 
 + #### PhidgetSpatial Precision 3/3/3 (1044_0B)
