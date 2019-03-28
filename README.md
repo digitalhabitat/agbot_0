@@ -4,7 +4,7 @@ File structure assumptions:
 ~/catkin_ws/src/agbot_0
 ```
 -------------
-### Basic rc-car startup
+## Basic rc-car startup
 To launch devices nodes remotely from a local machine on to the Raspberry Pi (rpi):
 ```bash
 $ export ROS_MASTER_URI='http://rc-car.local:11311'
@@ -18,7 +18,7 @@ This can also done by manually editing ~/.bashrc
 
 -------------
 
-### Basic rc-car startup (with ssh)
+## Basic rc-car startup (with ssh)
 Launching device nodes on the rpi directly within an ssh session:
 ```bash
 $ ssh ubnutu@rc-car
@@ -29,8 +29,24 @@ $ ros launch agbot_0 rpi.launch
 
 -------------
 
-### Software Packages
-+ TBA
+## ROS Device/Sensor Packages
++ #### Roboclaw
+	+ TBA
+
++ #### Steering Controller (Jrk G2 24v13)
+	+ TBA
+
++ #### Emlid Reach M+
+	+ http://wiki.ros.org/nmea_navsat_driver
+		+ nmea_serial_driver
+
++ #### PhidgetSpatial Precision 3/3/3 (1044_0B)
+	+ http://wiki.ros.org/phidgets_imu
+	+ http://wiki.ros.org/imu_filter_madgwick
+
++ #### Playstation 4 Controller
+	+ http://wiki.ros.org/joy
+	+ http://wiki.ros.org/joy_teleop	
 
 ### Early Testing Platform
 + #### rc-car 
