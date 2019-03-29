@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="port" default="/dev/ttyACM1"/>
+  <arg name="host" default="rc"/>
   <arg name="baud" default="4800"/>
-  <!-- arg name="gps_topic_name" default="/gps/fix"/> -->
+  <arg name="gps_topic_name" default="/gps/fix"/>
 
   <!-- XXX: For tcp postion output -->
   <!-- BIG ONE (REACH RS+) CORRECTION COMES IN AT 192.168.1.241:9001  -->
@@ -18,22 +18,11 @@
   <!-- XXX: EMLID REACH BROSWER APPLICATION WILL DISPLAY INCORRECT /DEV/TTY NAME  -->
   <!-- XXX: use $'dmesg <double dash>follow   ...then uplug/replug usb device to determine tty name -->
   <!-- XXX: building nmea_navsat_driver from source for removing automatic prefixing of forward slash to frame id -->
-  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" >
+  <!-- <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" respawn="true">
 	  <param name="port"     value="$(arg port)" />
 	  <param name="baud"     value="$(arg baud)" /> 
-    <!-- <remap from="/fix"     to="$(arg gps_topic_name)" /> -->
-  </node>
-
-    <!-- inlcude file paste
-    ### Emlid Reach (GPS building nmea_navsat_driver from source)
-    <include file="$(find agbot_0)/launch/include/emlid_gps.launch">
-      <arg name="tcp_host" default="rover3_reach" />  
-      <arg name="tcp_port" default="9009" />
-      <arg name="port" default="/dev/ttyACM1"/>
-      <arg name="baud" default="4800"/>
-      <arg name="gps_topic_name" default="/gps/fix"/>
-    </include>
-    -->
+    <remap from="/fix"     to="$(arg gps_topic_name)" />
+  </node> ->>
 
 </launch>
          

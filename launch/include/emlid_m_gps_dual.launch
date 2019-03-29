@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="tcp_host" default="rover3_reach" />
+  <arg name="tcp_port" default="9009" />
+  <arg name="port" default="/dev/ttyACM1"/>
+  <arg name="baud" default="4800"/>
+  <arg name="gps_topic_name" default="/gps/fix"/>
+  <arg name="tcp_topic_name" default="/gps/tcp_fix" />
+  <arg name="serial_topic_name" default="/gps/serial_fix" />
+
+  <!-- BIG ONE (REACH RS+) CORRECTION COMES IN AT 192.168.1.241:9001  -->
+  <!-- SMALL ONE (REACH M+) CORRECTION COMES IN AT 192.168.1.242:9009  or ***.0.76-->
+
+  <node pkg="reach_ros_node" type="nmea_tcp_driver" name="emlid_m_gps_tcp">
+  	<param name="~host"             value="$(arg tcp_host)" />
+	  <param name="~port"             value="$(arg tcp_port)" />
+    <remap from="/tcpfix" to="$(arg tcp_topic_name)"/>
+  </node>	
+
+
+  #### CAUTION: EMLID REACH BROSWER APPLICATION WILL DISPLAY INCORRECT /DEV/TTY NAME    ####
+  #### USE $dmesg --follow        ...then uplug/replug usb device to determine tty name #### 
+  #### building nmea_navsat_driver from source for removing automatic prefixing of forward slash to frame id ####
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="emlid_m_gps_serial" >
+	  <param name="port"     value="$(arg port)" />
+	  <param name="baud"     value="$(arg baud)" /> 
+    <remap from="/fix"     to="$(arg serial_topic_name)" />
+  </node>
+
+  <!--<node pkg="topic_tools" type="mux" args="$(arg gps_topic_name) gps/serial_fix gps/tcp_fix" name="gps_mux" /> --> 
+
+  <!-- include file paste
+    <include file="$(find agbot_0)/launch/include/emlid_m_gps_dual.launch">
+      <arg name="tcp_host" default="rover3_reach" />  
+      <arg name="tcp_port" default="9009" />
+      <arg name="port" default="/dev/ttyACM1"/>
+      <arg name="baud" default="4800"/>
+      <arg name="gps_topic_name" default="/gps/fix"/>
+      <arg name="tcp_topic_name" default="/gps/tcp_fix" />
+      <arg name="serial_topic_name" default="/gps/serial_fix" />
+    </include>  
+  -->
+
+</launch>
+         

@@ -8,6 +8,7 @@
 	<!-- (42 ticks/revolution) divide by (2*pi*radius_meters/revolution) -->
 	<!-- use math above to get ticks_per_meters = 111.41-->
 	<!-- base width is the length between left and right rear wheels -->
+
     <arg name="dev" default="/dev/ttyACM0"/>
     <arg name="baud" default="115200"/>
     <arg name="address" default="128"/>
@@ -15,25 +16,26 @@
     <arg name="ticks_per_meter" default="111.41"/>
     <arg name="base_width" default="0.21"/>
     <arg name="run_diag" default="true"/>
-    <arg name="odom_topic_name" default="/wheel_odometry"/>
-    <arg name="publish_tf" default="false" />
+    <arg name="child_frame" default="wheel_odom_base" />
+    <arg name="publish_tf" default="true" />
 
-    <!-- XXX: make sure "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term-->
-    <!-- TODO: create parameter to disable the broadcast of odom->baselink transform, since we are using local_efk, see publish_odom() in roboclaw_node.py-->
-    <!-- TODO: create parameter to select single motor drive mode and calculate x velocity odom accordingly -->
+    <!-- make sure type = "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term--> 
     <node if="$(arg run_diag)" pkg="roboclaw_node" type="roboclaw_node.py" name="roboclaw_node">
         <param name="~dev" value="$(arg dev)"/>
         <param name="~baud" value="$(arg baud)"/>
         <param name="~address" value="$(arg address)"/>
         <param name="~max_speed" value="$(arg max_speed)"/>
         <param name="~ticks_per_meter" value="$(arg ticks_per_meter)"/>
-        <param name="~base_width" value="$(arg base_width)"/> 
-        <remap from="/odom" to="$(arg odom_topic_name)" />
-        <!-- TODO param name="publish_tf" value="$(arg publish_tf)"-->
+        <param name="~base_width" value="$(arg base_width)"/>
+        <param name="~child_frame" value="$(arg child_frame)"/>
+        <param name="~publish_tf" value="$(arg publish_tf)"/>
     </node>
 
-    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
-        <rosparam command="load" file="$(find roboclaw_node)/config/roboclaw_diag.yaml"/>
+    <node pkg="diagnostic_aggregator" type="aggregator_node"
+          name="diagnostic_aggregator">
+        <rosparam command="load"
+                  file="$(find roboclaw_node)/config/roboclaw_diag.yaml"/>
     </node>
- 
+
 </launch>
+
