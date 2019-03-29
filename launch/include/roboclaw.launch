@@ -13,7 +13,7 @@
     <arg name="baud" default="115200"/>
     <arg name="address" default="128"/>
     <arg name="max_speed" default="2.0"/>
-    <arg name="ticks_per_meter" default="222.82"/>
+    <arg name="ticks_per_meter" default="111.41"/>
     <arg name="base_width" default="0.21"/>
     <arg name="run_diag" default="true"/>
     <arg name="child_frame" default="wheel_odom_base" />
