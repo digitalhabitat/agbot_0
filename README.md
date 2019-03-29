@@ -31,7 +31,7 @@ $ ros launch agbot_0 rpi.launch
 
 ## ROS Device/Sensor Packages
 + #### Roboclaw
-	+ TBA
+	+ https://github.com/digitalhabitat/roboclaw_node
 
 + #### Steering Controller (Jrk G2 24v13)
 	+ TBA
