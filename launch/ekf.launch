@@ -5,7 +5,7 @@
   <!-- export ROS_MASTER_URI='http://rc-car.local:11311' -->
 
   <!-- STATIC_TRANSFORM_PUBLISHER -->
-  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 0.05 0.1 1.54  git 0 3.14 robot_base imu" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 0.05 0.1 1.54 0 3.14 robot_base imu" />
   <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_gps" args="0 0 0.1 0 0 0 robot_base gps" />
   <node pkg="tf2_ros" type="static_transform_publisher" name="rbase_to_base_link" args="0 0 0 0 0 0 robot_base base_link" /> -->
 
