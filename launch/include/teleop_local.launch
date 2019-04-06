@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- joy_node parameters this node subscribes to sensor_msg --> 
+    <!-- <arg name="joy_config"      default="ps4" /> -->
+  	<arg name="joy_dev"         default="/dev/input/js0" /> 	
+    <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" /> 
+    
+    <node  pkg="joy" type="joy_node" name="joy_node">
+        <param name="dev"             value="$(arg joy_dev)" />  	 
+	      <param name="deadzone"        value="0.0" />
+        <param name="autorepeat_rate" value="1" />
+  	</node>
+
+<!-- joy_teleop node parameters... see teleop.yaml for ros message publish config--> 	
+    <rosparam command="load" file="$(arg config_filepath)" />
+  	<node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop">
+      <remap from="/ackermann_steering" to="/rpi/ackermann_steering" />
+      <remap from="/roboclaw/cmd_vel" to="/rpi/roboclaw/cmd_vel" />
+    </node>
+
+
+</launch>

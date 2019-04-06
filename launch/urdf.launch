@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="model" default="$(find agbot_0)/urdf/block.urdf" />
+  <arg name="model" default="$(find agbot_0)/description/rc-car-model.urdf" />
   <arg name="gui" default="true" />
   <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
 
