@@ -6,15 +6,11 @@
 
 
   <include file="$(find agbot_0)/launch/ekf.launch" />
-  <include file="$(find agbot_0)/launch/mapviz.launch" />
+  <include file="$(find   agbot_0)/launch/mapviz.launch" />
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
   <include file="$(find agbot_0)/launch/urdf.launch" />
     
-   ### USB/Bluetooth Joystick (connected to local PC)
-  <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
-    <arg name="joy_dev"         default="/dev/input/js0" /> 	
-    <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" /> 
-  </include>
+
   
 
 <group ns="rpi">
@@ -24,6 +20,12 @@
     ### Filepath for include files must be on the local machine
     ### Copy launch directory onto the machine runing roslaunch if you have to
     ### Use files located in .../agbot_0/launch/ directory
+    
+    ### USB/Bluetooth Joystick (connected to local PC)
+    <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
+      <arg name="joy_dev"         default="/dev/input/js0" /> 	
+      <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" /> 
+    </include>
 
     ### Roboclaw
     <include file="$(find agbot_0)/launch/include/roboclaw.launch">
@@ -34,8 +36,8 @@
       <arg name="ticks_per_meter" default="111.41"/>
       <arg name="base_width" default="0.21"/>
       <arg name="run_diag" default="true"/>
-      <arg name="child_frame" default="wheel_odom_base" />
-      <arg name="publish_tf" default="true" />
+      <arg name="child_frame" default="robot_base" />
+      <arg name="publish_tf" default="false" />
     </include>
 
     ### Steering Servo

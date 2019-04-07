@@ -5,8 +5,8 @@
   <!-- export ROS_MASTER_URI='http://rc-car.local:11311' -->
 
   <!-- STATIC_TRANSFORM_PUBLISHER arg = x y z yaw pitch roll frame_id child_frame_id-->
-  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 0.05 0.1 1.570795 3.14159 0 robot_base imu" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_gps" args="0 0 0.1 0 0 0 robot_base gps" />:
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0.255 0 0.180 1.570795 3.14159 0 robot_base imu" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_gps" args="-0.050 -0.076 0.750 0 0 0 robot_base gps" />:
   <node pkg="tf2_ros" type="static_transform_publisher" name="rbase_to_base_link" args="0 0 0 0 0 0 robot_base base_link" /> -->
 
   <!-- NAVSAT_TRANSFORM_NODE -->
@@ -70,7 +70,7 @@
                                    false, false, false,
                                    false, false, false,
                                    false, false, false,
-                                   false, false, false]</rosparam>
+                                   true, false, false]</rosparam>
     <param name="odom1_differential" value="false"/>
   </node>
 
@@ -88,16 +88,16 @@
     <param name="imu0" value="/rpi/imu/data_fixed"/>
     <rosparam param="imu0_config">[false, false, false,
                                    true,  true,  true,
-                                   false, false, false,
-                                   false, false, false,
+                                   false,  false, false,
+                                   false, false,  false,
                                    false,  false,  false]</rosparam>
     <param name="imu0_nodelay" value="true"/>
 
     <!-- WHEEL ODOMETRY -->
     <param name="odom0" value="/odom"/>
-    <rosparam param="odom0_config">[flase, false, false,
+    <rosparam param="odom0_config">[false, false, false,
                                     false, false, false,
-                                    true, false, false,
+                                    true,  false, false,
                                     false, false, false,
                                     false, false, false]</rosparam> -->
 
