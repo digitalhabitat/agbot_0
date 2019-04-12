@@ -5,34 +5,34 @@
   <!-- export ROS_MASTER_URI='http://rc-car.local:11311' -->
 
   <!-- STATIC_TRANSFORM_PUBLISHER arg = x y z yaw pitch roll frame_id child_frame_id-->
-  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0.255 0 0.180 1.570795 3.14159 0 robot_base imu" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0.255 0 0.180 3.14159 3.14159 0 robot_base imu" />
   <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_gps" args="-0.050 -0.076 0.750 0 0 0 robot_base gps" />:
   <node pkg="tf2_ros" type="static_transform_publisher" name="rbase_to_base_link" args="0 0 0 0 0 0 robot_base base_link" /> -->
 
   <!-- NAVSAT_TRANSFORM_NODE -->
   <node pkg="robot_localization" type="navsat_transform_node"
       name="navsat_transform_node"  respawn="true" output="screen">
-    <rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" />
+    <!--rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" -->
 
     <!-- http://www.magnetic-declination.com/-->
-    <param name="magnetic_declination_radians" value="-0.08411"/> <!-- Indianapolis -0.0841,  Toronto -0.18238691 --> 
-    
+    <!--param name="magnetic_declination_radians" value="-0.08411"--> <!-- Indianapolis -0.0841,  Toronto -0.18238691 -->
+
     <param name="zero_altitude" value="true" />
     <param name="broadcast_utm_transform" value="true" />
     <param name="publish_filtered_gps" value="true" />
 
     <!-- wait 5 secs before calculating the transform from GPS coordinates to robot’s world frame. -->
-    <param name="delay" value="5"/> 
+    <!--param name="delay" value="5"-->
 
-    <!-- Makefsure wait_for_datum is false to use sensors for 
-    robot’s current pose estimate in its world frame, 
+    <!-- Makefsure wait_for_datum is false to use sensors for
+    robot’s current pose estimate in its world frame,
     an earth-referenced heading,
-    and a geographic coordinate --> 
+    and a geographic coordinate -->
     <param name="wait_for_datum" value="false"/>
 
-    <!-- If IMU reads 0 facing magnetic north (guessing phidgets imu do) -->
+    <!-- If IMU reads 0 facing magnetic north -->
     <!-- using  below config so that imu reads 0 when facing east -->
-    <param name="yaw_offset" value="1.570796327"/>
+    <!--param name="yaw_offset" value="1.570796327" -->
 
     <param name="broadcast_utm_transform" value="true" />
     <!-- OUTPUT TOPICS -->
@@ -53,7 +53,7 @@
     <param name="odom_frame" value="odom"/>
     <param name="base_link_frame" value="robot_base"/>
     <param name="two_d_mode" value="true"/>
-    
+
 
     <!-- IMU -->
     <param name="imu0" value="/rpi/imu/data_fixed"/>
@@ -63,7 +63,16 @@
                                    <!-- true,  true,  true, -->
                                    false, false, false,
                                    false, false, false]</rosparam>
-  
+
+    <!-- WHEEL ODOMETRY -->
+    <param name="odom0" value="/odom"/>
+    <rosparam param="odom0_config">[false, false, false,
+                                    false, false, false,
+                                    true,  false, false,
+                                    false, false, false,
+                                    false, false, false]</rosparam> -->
+
+
     <!-- GPS ODOMETRY -->
     <param name="odom1" value="/odometry/filtered_gps"/>
     <rosparam param="odom1_config">[true,  true, false,
@@ -72,6 +81,8 @@
                                    false, false, false,
                                    true, false, false]</rosparam>
     <param name="odom1_differential" value="false"/>
+
+
   </node>
 
   <!-- LOCAL_EKF_LOCALIZATION -->

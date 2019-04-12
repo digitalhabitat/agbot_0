@@ -3,7 +3,7 @@
 
   <arg name="port" default="/dev/ttyACM1"/>
   <arg name="baud" default="4800"/>
-  <!-- arg name="gps_topic_name" default="/gps/fix"/> -->
+  <arg name="gps_topic_name" default="/gps/fix"/>
 
   <!-- XXX: For tcp postion output -->
   <!-- BIG ONE (REACH RS+) CORRECTION COMES IN AT 192.168.1.241:9001  -->
@@ -21,7 +21,7 @@
   <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" >
 	  <param name="port"     value="$(arg port)" />
 	  <param name="baud"     value="$(arg baud)" /> 
-    <!-- <remap from="/fix"     to="$(arg gps_topic_name)" /> -->
+    <remap from="/fix"     to="$(arg gps_topic_name)" />
   </node>
 
     <!-- inlcude file paste

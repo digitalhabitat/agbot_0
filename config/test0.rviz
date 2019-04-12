@@ -9,6 +9,7 @@ Panels:
         - /RobotModel1
         - /TF1
         - /TF1/Frames1
+        - /Imu1
       Splitter Ratio: 0.530259371
     Tree Height: 769
   - Class: rviz/Selection
@@ -51,7 +52,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.5
+    - Alpha: 0.899999976
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -136,46 +137,48 @@ Visualization Manager:
           Value: true
         robot_base:
           Value: true
-        world:
-          Value: false
-        world__identity:
-          Value: false
       Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          map:
-            odom:
-              robot_base:
-                base_link:
-                  back_left_wheel:
-                    {}
-                  back_right_wheel:
-                    {}
-                  front_left_hinge:
-                    front_left_wheel:
-                      {}
-                  front_right_hinge:
-                    front_right_wheel:
-                      {}
-                  laser_model:
-                    {}
-                gps:
+        map:
+          odom:
+            robot_base:
+              base_link:
+                back_left_wheel:
                   {}
-                imu:
+                back_right_wheel:
                   {}
-          world__identity:
-            {}
+                front_left_hinge:
+                  front_left_wheel:
+                    {}
+                front_right_hinge:
+                  front_right_wheel:
+                    {}
+                laser_model:
+                  {}
+              gps:
+                {}
+              imu:
+                {}
       Update Interval: 0
+      Value: true
+    - Alpha: 0.100000001
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: true
+      History Length: 1
+      Name: Imu
+      Topic: /rpi/imu/data_fixed
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -196,25 +199,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.01112103
+      Distance: 7.02683353
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
+        X: 0.112046957
+        Y: -0.279522896
         Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.695397019
+      Pitch: 0.615396798
       Target Frame: robot_base
       Value: Orbit (rviz)
-      Yaw: 0.513581991
+      Yaw: 4.05175924
     Saved: ~
 Window Geometry:
   Displays:

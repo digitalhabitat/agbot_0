@@ -1,28 +1,30 @@
 <?xml version="1.0"?>
 
-<!-- A simple model of the racecar for rviz -->
+<!-- A simple model of the rc-car for rviz -->
+<!-- urdf-viz for quick viewing-->
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="racecar">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rc-car">
 
   <xacro:property name="wheelbase" value="0.222" />
   <xacro:property name="width" value="0.100" />
   <xacro:property name="height" value="0.110" />
   <xacro:property name="ground_offset" value="0.070" />
-  <xacro:property name="wheel_offset" value="0.02" />  
+  <xacro:property name="wheel_offset" value="0.025" />
   <xacro:property name="wheel_radius" value="0.06" />
-  <xacro:property name="wheel_length" value="0.057" />
+  <xacro:property name="wheel_length" value="0.055" />
   <xacro:property name="laser_distance_from_base_link" value="0.275" />
   <xacro:property name="laser_height" value="0.05" />
   <xacro:property name="laser_radius" value="0.026" />
 
   <material name="black">
-    <color rgba="0.2 0.2 0.2 1."/>
+    <color rgba="0.2 0.2 0.2 1"/>
   </material>
 
   <material name="blue">
-    <color rgba="0.3 0.57 1. 1."/>
+    <color rgba="0.3 0.57 1. 1"/>
   </material>
 
+  ### base link
   <link name="base_link">
     <visual>
       <origin xyz="${wheelbase/2} 0 ${ground_offset+height/2}"/>
@@ -33,6 +35,7 @@
     </visual>
   </link>
 
+  ### laser
   <joint name="base_to_laser_model" type="fixed">
     <parent link="base_link"/>
     <child link="laser_model"/>
@@ -43,15 +46,18 @@
     <visual>
       <geometry>
         <cylinder radius="${laser_radius}" length="${laser_height}"/>
+        <!--mesh filename="package://agbot_0/meshes/sorting_tray_centered.stl" scale="0.001 0.001 0.001"-->
       </geometry>
       <material name="black"/>
     </visual>
   </link>
 
-  <joint name="base_to_back_left_wheel" type="fixed">
+  ### Back left wheel
+  <joint name="base_to_back_left_wheel" type="continuous">
     <parent link="base_link"/>
     <child link="back_left_wheel"/>
-    <origin xyz="0 ${(wheel_length+wheel_offset+width)/2} ${wheel_radius}"/>
+    <origin xyz="0 ${(wheel_length+width)/2+wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="back_left_wheel">
@@ -64,10 +70,12 @@
     </visual>
   </link>
 
-  <joint name="base_to_back_right_wheel" type="fixed">
+  ### Back right wheel
+  <joint name="base_to_back_right_wheel" type="continuous">
     <parent link="base_link"/>
     <child link="back_right_wheel"/>
-    <origin xyz="0 ${-(wheel_length+wheel_offset+width)/2} ${wheel_radius}"/>
+    <origin xyz="0 ${-(wheel_length+width)/2-wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="back_right_wheel">
@@ -80,10 +88,12 @@
     </visual>
   </link>
 
-  <joint name="base_to_front_left_hinge" type="fixed">
+  ### Front right wheel
+  <joint name="base_to_front_left_hinge" type="continuous">
     <parent link="base_link"/>
     <child link="front_left_hinge"/>
-    <origin xyz="${wheelbase} ${(wheel_length+wheel_offset+width)/2} ${wheel_radius}"/>
+    <origin xyz="${wheelbase} ${(wheel_length+width)/2+wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 0 1"/>
   </joint>
 
   <link name="front_left_hinge"/>
@@ -91,6 +101,8 @@
   <joint name="front_left_hinge_to_wheel" type="continuous">
     <parent link="front_left_hinge"/>
     <child link="front_left_wheel"/>
+    <axis xyz="0 1 0"/>
+    <orign xyz="0 ${wheel_length/2} 0"/>
   </joint>
 
   <link name="front_left_wheel">
@@ -103,10 +115,12 @@
     </visual>
   </link>
 
-  <joint name="base_to_front_right_hinge" type="fixed">
+  ### Front left wheel
+  <joint name="base_to_front_right_hinge" type="continuous">
     <parent link="base_link"/>
     <child link="front_right_hinge"/>
-    <origin xyz="${wheelbase} ${-(wheel_length+wheel_offset+width)/2} ${wheel_radius}"/>
+    <origin xyz="${wheelbase} ${-(width)/2-wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 0 1"/>
   </joint>
 
   <link name="front_right_hinge"/>
@@ -114,6 +128,8 @@
   <joint name="front_right_hinge_to_wheel" type="continuous">
     <parent link="front_right_hinge"/>
     <child link="front_right_wheel"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 ${-(wheel_length)/2} 0"/>
   </joint>
 
   <link name="front_right_wheel">
@@ -122,7 +138,7 @@
         <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <material name="black"/>
-      <origin rpy="${pi/2} 0 0"/>
+      <origin rpy="${pi/2} 0 0"  />
     </visual>
   </link>
 

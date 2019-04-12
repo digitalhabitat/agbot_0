@@ -5,69 +5,70 @@
   <!-- XXX see rpi.launch for further details -->
 
 
-  <include file="$(find agbot_0)/launch/ekf.launch" />
-  <include file="$(find   agbot_0)/launch/mapviz.launch" />
+
+  <include file="$(find agbot_0)/launch/mapviz.launch" />
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
   <include file="$(find agbot_0)/launch/urdf.launch" />
-    
+
+
 
   
-
-<group ns="rpi">
     <machine name="remote_rpi" address="rc-car" env-loader="/home/ubuntu/catkin_ws/src/agbot_0/env.sh" user="ubuntu" default="true"/>
     <node machine="remote_rpi" name="talker" pkg="rospy_tutorials" type="talker.py" />
-    
+
+    ### Robot Localization
+    <group ns="localiz">
+      <include file="$(find agbot_0)/launch/ekf.launch" />
+    </group>
+
     ### Filepath for include files must be on the local machine
     ### Copy launch directory onto the machine runing roslaunch if you have to
     ### Use files located in .../agbot_0/launch/ directory
-    
-    ### USB/Bluetooth Joystick (connected to local PC)
-    <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
-      <arg name="joy_dev"         default="/dev/input/js0" /> 	
-      <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" /> 
-    </include>
-
-    ### Roboclaw
-    <include file="$(find agbot_0)/launch/include/roboclaw.launch">
-      <arg name="dev" default="/dev/ttyACM0"/>
-      <arg name="baud" default="115200"/>
-      <arg name="address" default="128"/>
-      <arg name="max_speed" default="2.0"/>
-      <arg name="ticks_per_meter" default="111.41"/>
-      <arg name="base_width" default="0.21"/>
-      <arg name="run_diag" default="true"/>
-      <arg name="child_frame" default="robot_base" />
-      <arg name="publish_tf" default="false" />
-    </include>
-
-    ### Steering Servo
-    <include file="$(find agbot_0)/launch/include/rpi_servo.launch" />
 
 
+    <group ns="rpi">
+      ### USB/Bluetooth Joystick (connected to local PC)
+      <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
+        <arg name="joy_dev"         default="/dev/input/js0" />
+        <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" />
+      </include>
 
-    ### Emlid Reach (GPS building nmea_navsat_driver from source)
-    <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
-      <arg name="port" default="/dev/ttyACM1"/>
-      <arg name="baud" default="4800"/>
-      <!--XXX not working <remap from="rpi/fix" to="rpi/gps/fix"/>  -->
+      ### Roboclaw
+      <include file="$(find agbot_0)/launch/include/roboclaw.launch">
+        <arg name="dev" default="/dev/ttyACM0"/>
+        <arg name="baud" default="115200"/>
+        <arg name="address" default="128"/>
+        <arg name="max_speed" default="2.0"/>
+        <arg name="ticks_per_meter" default="111.41"/>
+        <arg name="base_width" default="0.21"/>
+        <arg name="run_diag" default="true"/>
+        <arg name="child_frame" default="robot_base" />
+        <arg name="publish_tf" default="false" />
+      </include>
 
-    </include>
+      ### Steering Servo
+      <include file="$(find agbot_0)/launch/include/rpi_servo.launch" />
 
- 
-    ### Phidget IMU
-    <include file="$(find agbot_0)/launch/include/phidget_imu.launch">
-      <arg name="imu_topic_name"  default="imu/data_fixed"/>
-      <arg name="period"          default="4"/>
-      <arg name="serial_number"   default="-1"/>
-      <arg name="world"           default="enu"/>
-      <arg name="use_mag"         default="trUe"/>
-      <arg name="use_magnetic_field_msg" default="true"/>
-      <arg name="fixed_frame"     default="odom"/>
-      <arg name="reverse_tf"      default="false"/>
-      <arg name="publish_tf"      default="false"/>
-    </include>
-  
-  </group>
+      ### Emlid Reach (GPS building nmea_navsat_driver from source)
+      <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
+        <arg name="port" default="/dev/ttyACM1"/>
+        <arg name="baud" default="4800"/>
+        <arg name="gps_topic_name" default="/gps/fix"/>
+        <!--XXX not working <remap from="rpi/fix" to="rpi/gps/fix"/>  -->
+      </include>
+
+      ### Phidget IMU
+      <include file="$(find agbot_0)/launch/include/phidget_imu.launch">
+        <arg name="imu_topic_name"  default="imu/data_fixed"/>
+        <arg name="period"          default="4"/>
+        <arg name="serial_number"   default="-1"/>
+        <arg name="world"           default="enu"/>
+        <arg name="use_mag"         default="trUe"/>
+        <arg name="use_magnetic_field_msg" default="true"/>
+        <arg name="fixed_frame"     default="odom"/>
+        <arg name="reverse_tf"      default="false"/>
+        <arg name="publish_tf"      default="false"/>
+      </include>
+  </group>  ### end of rpi group
 
 </launch>
-          
