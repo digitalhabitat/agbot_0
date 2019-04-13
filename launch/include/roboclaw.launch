@@ -16,9 +16,11 @@
     <arg name="ticks_per_meter" default="111.41"/>
     <arg name="base_width" default="0.21"/>
     <arg name="run_diag" default="true"/>
-    <arg name="child_frame" default="wheel_odom_base" />
+    <arg name="child_frame" default="odom" />
     <arg name="publish_tf" default="true" />
     <arg name="single_motor" default="true"/>
+    <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
+    <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
 
     <!-- make sure type = "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term--> 
     <node if="$(arg run_diag)" pkg="roboclaw_node" type="roboclaw_node.py" name="roboclaw_node">
@@ -31,6 +33,8 @@
         <param name="~child_frame" value="$(arg child_frame)"/>
         <param name="~publish_tf" value="$(arg publish_tf)"/>
         <param name="~single_motor" value="$(arg single_motor)"/>
+        <param name="~twist_command" value="$(arg twist_topic_name)"/>
+        <remap from="/odom" to="$(arg odom_topic_name)"/>
     </node>
 
     <node pkg="diagnostic_aggregator" type="aggregator_node"

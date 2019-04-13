@@ -15,7 +15,7 @@
     <!--rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" -->
 
     <!-- http://www.magnetic-declination.com/-->
-    <!--param name="magnetic_declination_radians" value="-0.08411"--> <!-- Indianapolis -0.0841,  Toronto -0.18238691 -->
+    <param name="magnetic_declination_radians" value="-0.06981317008"/> <!-- Indianapolis -4*49' degrees  Toronto -0.18238691 -->
 
     <param name="zero_altitude" value="true" />
     <param name="broadcast_utm_transform" value="true" />
@@ -39,8 +39,8 @@
     <remap from="/odometry/gps" to="/odometry/filtered_gps"/>
     <remap from="/gps/filtered" to="/gps/filtered"/>
     <!-- INPUT TOPICS -->
-    <remap from="/gps/fix" to="/rpi/fix"/>
-    <remap from="imu/data/" to="/rpi/imu/data_fixed"/>
+    <remap from="/gps/fix" to="/gps/fix"/>
+    <remap from="imu/data/" to="/imu/data_fixed"/>
     <remap from="/odometry/filtered" to="/odometry/filtered_global"/>
   </node>
 
@@ -56,7 +56,7 @@
 
 
     <!-- IMU -->
-    <param name="imu0" value="/rpi/imu/data_fixed"/>
+    <param name="imu0" value="/imu/data_fixed"/>
     <rosparam param="imu0_config">[false, false, false,
                                    true,  true,  true,
                                    false, false, false,
@@ -65,7 +65,7 @@
                                    false, false, false]</rosparam>
 
     <!-- WHEEL ODOMETRY -->
-    <param name="odom0" value="/odom"/>
+    <param name="odom0" value="/wheel_encoder/odom"/>
     <rosparam param="odom0_config">[false, false, false,
                                     false, false, false,
                                     true,  false, false,
@@ -96,7 +96,7 @@
     <param name="two_d_mode" value="true"/>
 
     <!-- IMU -->
-    <param name="imu0" value="/rpi/imu/data_fixed"/>
+    <param name="imu0" value="/imu/data_fixed"/>
     <rosparam param="imu0_config">[false, false, false,
                                    true,  true,  true,
                                    false,  false, false,
@@ -105,7 +105,7 @@
     <param name="imu0_nodelay" value="true"/>
 
     <!-- WHEEL ODOMETRY -->
-    <param name="odom0" value="/odom"/>
+    <param name="odom0" value="/wheel_encoder/odom"/>
     <rosparam param="odom0_config">[false, false, false,
                                     false, false, false,
                                     true,  false, false,

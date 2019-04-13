@@ -6,10 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Grid1
         - /RobotModel1
         - /TF1
         - /TF1/Frames1
         - /Imu1
+        - /Grid2
       Splitter Ratio: 0.530259371
     Tree Height: 769
   - Class: rviz/Selection
@@ -50,7 +52,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: <Fixed Frame>
+      Reference Frame: map
       Value: true
     - Alpha: 0.899999976
       Class: rviz/RobotModel
@@ -128,11 +130,11 @@ Visualization Manager:
         gps:
           Value: true
         imu:
-          Value: false
+          Value: true
         laser_model:
           Value: false
         map:
-          Value: false
+          Value: true
         odom:
           Value: true
         robot_base:
@@ -171,8 +173,26 @@ Visualization Manager:
       Enabled: true
       History Length: 1
       Name: Imu
-      Topic: /rpi/imu/data_fixed
+      Topic: /imu/data_fixed
       Unreliable: false
+      Value: true
+    - Alpha: 0.100000001
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 33; 247; 247
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: odom
       Value: true
   Enabled: true
   Global Options:
@@ -198,27 +218,47 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 7.02683353
+      Class: rviz/ThirdPersonFollower
+      Distance: 3.64104772
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.112046957
-        Y: -0.279522896
+        X: 0
+        Y: 0
         Z: 0
-      Focal Shape Fixed Size: true
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.615396798
+      Pitch: 0.500398934
       Target Frame: robot_base
-      Value: Orbit (rviz)
-      Yaw: 4.05175924
-    Saved: ~
+      Value: ThirdPersonFollower (rviz)
+      Yaw: 1.90039968
+    Saved:
+      - Class: rviz/ThirdPersonFollower
+        Distance: 2.69925547
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.0599999987
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.0500000007
+        Invert Z Axis: false
+        Name: 3rd-person
+        Near Clip Distance: 0.00999999978
+        Pitch: 0.330398917
+        Target Frame: robot_base
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 3.08539939
 Window Geometry:
   Displays:
     collapsed: false

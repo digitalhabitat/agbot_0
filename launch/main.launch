@@ -9,6 +9,7 @@
   <include file="$(find agbot_0)/launch/mapviz.launch" />
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
   <include file="$(find agbot_0)/launch/urdf.launch" />
+  <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" />
 
 
 
@@ -17,20 +18,19 @@
     <node machine="remote_rpi" name="talker" pkg="rospy_tutorials" type="talker.py" />
 
     ### Robot Localization
-    <group ns="localiz">
-      <include file="$(find agbot_0)/launch/ekf.launch" />
-    </group>
+    <include file="$(find agbot_0)/launch/ekf.launch" />
+
 
     ### Filepath for include files must be on the local machine
     ### Copy launch directory onto the machine runing roslaunch if you have to
     ### Use files located in .../agbot_0/launch/ directory
 
-
-    <group ns="rpi">
       ### USB/Bluetooth Joystick (connected to local PC)
       <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
         <arg name="joy_dev"         default="/dev/input/js0" />
         <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" />
+        <arg name="ackermann_topic_name" default="/ackermann_steering"/>
+        <arg name="cmd_vel_topic_name" default="/roboclaw/cmd_vel"/>
       </include>
 
       ### Roboclaw
@@ -44,6 +44,8 @@
         <arg name="run_diag" default="true"/>
         <arg name="child_frame" default="robot_base" />
         <arg name="publish_tf" default="false" />
+        <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
+        <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
       </include>
 
       ### Steering Servo
@@ -54,8 +56,8 @@
         <arg name="port" default="/dev/ttyACM1"/>
         <arg name="baud" default="4800"/>
         <arg name="gps_topic_name" default="/gps/fix"/>
-        <!--XXX not working <remap from="rpi/fix" to="rpi/gps/fix"/>  -->
       </include>
+      
 
       ### Phidget IMU
       <include file="$(find agbot_0)/launch/include/phidget_imu.launch">
@@ -68,7 +70,6 @@
         <arg name="fixed_frame"     default="odom"/>
         <arg name="reverse_tf"      default="false"/>
         <arg name="publish_tf"      default="false"/>
-      </include>
-  </group>  ### end of rpi group
+      </include> 
 
 </launch>
