@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-  <arg name="mapvizconfig" default="$(find agbot_0)/config/test0_mapviz.mvc" />
-  <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" args="-d $(arg mapvizconfig)" required="true" output="log"/>
-
-</launch>

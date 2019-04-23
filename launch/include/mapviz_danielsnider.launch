@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- XXX if you cant get tile_map to work try buidling from source this will solve any hidden dependency issues XXX-->
+  <!-- https://github.com/swri-robotics/mapviz -->.
+  
+  <!--https://github.com/danielsnider/MapViz-Tile-Map-Google-Maps-Satellite -->
+  ### sudo docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
+  ### Then put this URL into the MapViz option "Custom WMTS Source..." http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
+
+<!-- https://gist.github.com/danielsnider/a458938049f2d12784b8a5d664a12b72   -->
+  <env name="ROSCONSOLE_FORMAT" value="[${thread}] [${node}/${function}:${line}]: ${message}"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 /world /map 100" />
+
+  <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" required="true" output="log"/>
+
+  <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" output="screen">
+    <param name="local_xy_frame" value="/world"/>
+    <param name="local_xy_origin" value="stutz"/> "auto" setting will set the origin to the first gps fix that it recieves 
+    <remap from="gps" to="/fix"/>
+    <rosparam param="local_xy_origins">
+      [{ name: stutz,
+         latitude: 39.78020,
+         longitude: -86.16289,
+         altitude: 33.719,
+         heading: 0.0},
+         
+       { name: back_40,
+         latitude: 29.447507,
+         longitude: -98.629367,
+         altitude: 200.0,
+         heading: 0.0}]
+    </rosparam>
+  </node>
+
+    <!-- Needed only for searching for services -->
+  <node pkg="rosapi" type="rosapi_node" name="rosapi"/>
+
+</launch>

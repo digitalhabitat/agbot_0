@@ -5,7 +5,7 @@
     <arg name="period" default="4"/>
     <arg name="serial_number" default="-1"/>
     <arg name="world" default="enu"/>
-    <arg name="use_mag" default="tRUe"/>
+    <arg name="use_mag" default="true"/>
     <arg name="use_magnetic_field_msg" default="true"/>
     <arg name="fixed_frame" default="odom"/>
     <arg name="reverse_tf" default="false"/>

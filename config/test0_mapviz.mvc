@@ -1,25 +1,46 @@
 capture_directory: ~
 fixed_frame: map
-target_frame: robot_base
+target_frame: map
 fix_orientation: false
 rotate_90: false
 enable_antialiasing: true
 show_displays: true
 show_status_bar: true
 show_capture_tools: true
-window_width: 1920
-window_height: 1056
-view_scale: 0.3746763
-offset_x: 0
-offset_y: 0
+window_width: 1900
+window_height: 1007
+view_scale: 0.1815811
+offset_x: -63.76411
+offset_y: 0.3146758
 use_latest_transforms: true
 background: "#a0a0a4"
+image_transport: raw
 displays:
+  - type: mapviz_plugins/tile_map
+    name: google_maps
+    config:
+      visible: true
+      collapsed: false
+      custom_sources:
+        - base_url: http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
+          max_zoom: 19
+          name: google_maps
+          type: wmts
+        - base_url: "http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg\t"
+          max_zoom: 19
+          name: stae
+          type: wmts
+        - base_url: "https://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png\n"
+          max_zoom: 19
+          name: tesy
+          type: wmts
+      bing_api_key: ""
+      source: google_maps
   - type: mapviz_plugins/odometry
     name: filtered_gps
     config:
       visible: true
-      collapsed: false
+      collapsed: true
       topic: /odometry/filtered_gps
       color: "#ffff00"
       draw_style: points
@@ -34,12 +55,12 @@ displays:
     name: filtered_global
     config:
       visible: true
-      collapsed: false
+      collapsed: true
       topic: /odometry/filtered_global
       color: "#ffaaff"
       draw_style: points
       position_tolerance: 0
-      buffer_size: 10
+      buffer_size: 0
       show_laps: true
       show_covariance: true
       static_arrow_sizes: true
@@ -49,30 +70,46 @@ displays:
     name: filtered_local
     config:
       visible: true
-      collapsed: false
+      collapsed: true
       topic: /odometry/filtered_global
       color: "#a0fffc"
       draw_style: lines
       position_tolerance: 0
-      buffer_size: 50
+      buffer_size: 0
       show_laps: true
       show_covariance: true
       static_arrow_sizes: false
-      arrow_size: 14
+      arrow_size: 5
       show_timestamps: 0
-  - type: mapviz_plugins/grid
-    name: odom
+  - type: mapviz_plugins/tf_frame
+    name: new display
     config:
       visible: true
       collapsed: true
-      color: "#ffffff"
-      alpha: 0.1
-      frame: map
-      x: -10
-      y: -10
-      size: 1
-      rows: 20
-      columns: 20
+      frame: back_left_wheel
+      color: "#000000"
+      draw_style: arrows
+      position_tolerance: 0
+      buffer_size: 1
+      static_arrow_sizes: true
+      arrow_size: 38
+  - type: mapviz_plugins/coordinate_picker
+    name: new display
+    config:
+      visible: true
+      collapsed: true
+      frame: origin
+      copy: true
+  - type: mapviz_plugins/attitude_indicator
+    name: new display
+    config:
+      visible: true
+      collapsed: true
+      topic: /imu/data_fixed
+      x: 0
+      y: 0
+      width: 100
+      height: 100
   - type: mapviz_plugins/grid
     name: map
     config:
@@ -86,13 +123,33 @@ displays:
       size: 1
       rows: 10
       columns: 10
-  - type: mapviz_plugins/attitude_indicator
+  - type: mapviz_plugins/grid
+    name: odom
+    config:
+      visible: true
+      collapsed: true
+      color: "#ffffff"
+      alpha: 0.1
+      frame: map
+      x: -10
+      y: -10
+      size: 0
+      rows: 20
+      columns: 20
+  - type: mapviz_plugins/tf_frame
+    name: new display
+    config:
+      visible: true
+      collapsed: true
+      frame: utm
+      color: "#ffffff"
+      draw_style: arrows
+      position_tolerance: 0
+      buffer_size: 0
+      static_arrow_sizes: true
+      arrow_size: 66
+  - type: mapviz_plugins/move_base
     name: new display
     config:
       visible: true
       collapsed: false
-      topic: /imu/data_fixed
-      x: 0
-      y: 0
-      width: 100
-      height: 100
