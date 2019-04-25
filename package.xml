@@ -76,6 +76,7 @@ This robot is intended to compete int the 2019 AgBOT Challenge, Mining for Micro
   <exec_depend>joy</exec_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>swri_transform_util</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

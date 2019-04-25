@@ -6,18 +6,14 @@
 
 
 
-  <include file="$(find agbot_0)/launch/mapviz.launch" />
+  <include file="$(find agbot_0)/launch/include/mapviz.launch" />
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
   <include file="$(find agbot_0)/launch/urdf.launch" />
   <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" />
 
-
-
-  
-    <machine name="remote_rpi" address="rc-car" env-loader="/home/ubuntu/catkin_ws/src/agbot_0/env.sh" user="ubuntu" default="true"/>
-    <node machine="remote_rpi" name="talker" pkg="rospy_tutorials" type="talker.py" />
-
-    ### Robot Localization
+  <machine name="remote_rpi" address="rc-car" env-loader="/home/ubuntu/catkin_ws/src/agbot_0/env.sh" user="ubuntu" default="true"/>
+    
+      ### Robot Localization
     <include file="$(find agbot_0)/launch/ekf.launch" />
 
 
@@ -64,8 +60,8 @@
         <arg name="imu_topic_name"  default="imu/data_fixed"/>
         <arg name="period"          default="4"/>
         <arg name="serial_number"   default="-1"/>
-        <arg name="world"           default="enu"/>
-        <arg name="use_mag"         default="trUe"/>
+        <!--<arg name="world_frame"     default="enu"/>-->
+        <arg name="use_mag"         default="true"/>
         <arg name="use_magnetic_field_msg" default="true"/>
         <arg name="fixed_frame"     default="odom"/>
         <arg name="reverse_tf"      default="false"/>

@@ -9,12 +9,11 @@ show_status_bar: true
 show_capture_tools: true
 window_width: 1900
 window_height: 1007
-view_scale: 0.1815811
-offset_x: -63.76411
-offset_y: 0.3146758
+view_scale: 0.4620821
+offset_x: -7.00391
+offset_y: -19.27905
 use_latest_transforms: true
 background: "#a0a0a4"
-image_transport: raw
 displays:
   - type: mapviz_plugins/tile_map
     name: google_maps
@@ -153,3 +152,16 @@ displays:
     config:
       visible: true
       collapsed: false
+  - type: mapviz_plugins/grid
+    name: new display
+    config:
+      visible: true
+      collapsed: true
+      color: "#ff0000"
+      alpha: 1
+      frame: world
+      x: 1
+      y: 0
+      size: 1
+      rows: 1
+      columns: 1

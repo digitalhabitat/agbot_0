@@ -8,11 +8,16 @@
   ### sudo docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
   ### Then put this URL into the MapViz option "Custom WMTS Source..." http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
 
-  <node pkg="mapviz" type="mapviz" name="mapviz"></node>
+  <arg name="mapvizconfig" default="$(find agbot_0)/config/test0_mapviz.mvc" />
+  <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" args="-d $(arg mapvizconfig)" required="true" output="log"/>
 
   <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
-    <param name="local_xy_frame" value="/world"/>
-    <param name="local_xy_origin" value="stutz"/> "auto" setting will set the origin to the first gps fix that it recieves 
+    <param name="local_xy_frame" value="/map"/>
+    <param name="local_xy_origin" value="auto"/> "auto" setting will set the origin to the first gps fix that it recieves 
+    ### if using auto consider the following:
+    ### GPSFix message type subscribes to message topic 'gps' 
+    ### NavSatFix message type subscribes to message topic 'fix'
+    <remap from="fix" to="/gps/fix"/> 
     <rosparam param="local_xy_origins">
       [{ name: stutz,
          latitude: 39.78020,
@@ -28,6 +33,6 @@
     </rosparam>
   </node>
 
-  <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 /world /map 100" />
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 world map 100" -->
 
 </launch>
