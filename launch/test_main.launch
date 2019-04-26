@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<launch>
+
+  ### THIS LAUNCH FILE IS FOR TESTING ALL PACKAGES ON USER PC LOCALLY ###
+  ### MAKE SURE ROS_MASTER_URI IS SET FOR LOCAL MACHINE ###
+
+  <include file="$(find agbot_0)/launch/include/mapviz.launch" />
+  <include file="$(find agbot_0)/launch/rviz_gui.launch" />
+  <include file="$(find agbot_0)/launch/urdf.launch" />
+  <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> 
+    
+    ### Robot Localization
+    <include file="$(find agbot_0)/launch/ekf.launch" />
+
+
+    ### Filepath for include files must be on the local machine
+    ### Copy launch directory onto the machine runing roslaunch if you have to
+    ### Use files located in .../agbot_0/launch/ directory
+
+      ### USB/Bluetooth Joystick (connected to local PC)
+      <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
+        <arg name="joy_dev"         default="/dev/input/js0" />
+        <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" />
+        <arg name="ackermann_topic_name" default="/ackermann_steering"/>
+        <arg name="cmd_vel_topic_name" default="/roboclaw/cmd_vel"/>
+      </include>
+
+      ### Roboclaw
+      <include file="$(find agbot_0)/launch/include/roboclaw.launch">
+        <arg name="dev" default="/dev/ttyACM0"/>
+        <arg name="baud" default="115200"/>
+        <arg name="address" default="128"/>
+        <arg name="max_speed" default="2.0"/>
+        <arg name="ticks_per_meter" default="13528.17"/>
+        <arg name="base_width" default="0.21"/>
+        <arg name="run_diag" default="true"/>
+        <arg name="child_frame" default="robot_base" />
+        <arg name="publish_tf" default="false" />
+        <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
+        <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
+      </include>
+
+      ### Steering Servo
+      <include file="$(find agbot_0)/launch/include/rpi_servo.launch" />
+
+      ### Emlid Reach (GPS building nmea_navsat_driver from source)
+      <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
+        <arg name="port" default="/dev/ttyACM1"/>
+        <arg name="baud" default="4800"/>
+        <arg name="gps_topic_name" default="/gps/fix"/>
+      </include>
+      
+
+      ### Phidget IMU
+      <include file="$(find agbot_0)/launch/include/phidget_imu.launch">
+        <arg name="imu_topic_name"  default="imu/data_fixed"/>
+        <arg name="period"          default="4"/>
+        <arg name="serial_number"   default="-1"/>
+        <arg name="world_frame"     default="enu"/>
+        <arg     name="use_mag"         default="true"/>
+        <arg name="use_magnetic_field_msg" default="true"/>
+        <arg name="fixed_frame"     default="odom"/>
+        <arg name="reverse_tf"      default="false"/>
+        <arg name="publish_tf"      default="false"/>
+      </include> 
+
+</launch>
