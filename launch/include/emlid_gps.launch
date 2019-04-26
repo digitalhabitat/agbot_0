@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="port" default="/dev/ttyACM1"/>
+  <arg name="port" default="/dev/ttyACM1"/> 
   <arg name="baud" default="4800"/>
+  <arg name="frame_id" default="gps" />
   <arg name="gps_topic_name" default="/gps/fix"/>
 
   <!-- XXX: For tcp postion output -->
@@ -21,6 +22,7 @@
   <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" >
 	  <param name="port"     value="$(arg port)" />
 	  <param name="baud"     value="$(arg baud)" /> 
+    <param name="frame_id" value="$(arg frame_id)" />
     <remap from="/fix"     to="$(arg gps_topic_name)" />
   </node>
 

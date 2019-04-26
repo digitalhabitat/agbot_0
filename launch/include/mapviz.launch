@@ -12,7 +12,7 @@
   <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" args="-d $(arg mapvizconfig)" required="true" output="log"/>
 
   <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
-    <param name="local_xy_frame" value="/map"/>
+    <param name="local_xy_frame" value="map"/>
     <param name="local_xy_origin" value="auto"/> "auto" setting will set the origin to the first gps fix that it recieves 
     ### if using auto consider the following:
     ### GPSFix message type subscribes to message topic 'gps' 
