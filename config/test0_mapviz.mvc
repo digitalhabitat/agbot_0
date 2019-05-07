@@ -9,9 +9,9 @@ show_status_bar: true
 show_capture_tools: true
 window_width: 1900
 window_height: 1007
-view_scale: 0.4620821
-offset_x: -7.00391
-offset_y: -19.27905
+view_scale: 0.09588257
+offset_x: -6.056569
+offset_y: -1.666861
 use_latest_transforms: true
 background: "#a0a0a4"
 displays:
@@ -84,14 +84,14 @@ displays:
     name: new display
     config:
       visible: true
-      collapsed: true
-      frame: back_left_wheel
-      color: "#000000"
+      collapsed: false
+      frame: imu
+      color: "#ff0000"
       draw_style: arrows
       position_tolerance: 0
       buffer_size: 1
       static_arrow_sizes: true
-      arrow_size: 38
+      arrow_size: 205
   - type: mapviz_plugins/coordinate_picker
     name: new display
     config:

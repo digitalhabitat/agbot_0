@@ -5,6 +5,7 @@
   <arg name="baud" default="4800"/>
   <arg name="frame_id" default="gps" />
   <arg name="gps_topic_name" default="/gps/fix"/>
+  <arg name="node_name" default="reach_gps"/>
 
   <!-- XXX: For tcp postion output -->
   <!-- BIG ONE (REACH RS+) CORRECTION COMES IN AT 192.168.1.241:9001  -->
@@ -19,7 +20,7 @@
   <!-- XXX: EMLID REACH BROSWER APPLICATION WILL DISPLAY INCORRECT /DEV/TTY NAME  -->
   <!-- XXX: use $'dmesg <double dash>follow   ...then uplug/replug usb device to determine tty name -->
   <!-- XXX: building nmea_navsat_driver from source for removing automatic prefixing of forward slash to frame id -->
-  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="reach_gps" >
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="$(arg node_name)" >
 	  <param name="port"     value="$(arg port)" />
 	  <param name="baud"     value="$(arg baud)" /> 
     <param name="frame_id" value="$(arg frame_id)" />

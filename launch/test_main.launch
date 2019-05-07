@@ -4,9 +4,13 @@
   ### THIS LAUNCH FILE IS FOR TESTING ALL PACKAGES ON USER PC LOCALLY ###
   ### MAKE SURE ROS_MASTER_URI IS SET FOR LOCAL MACHINE ###
 
-  <include file="$(find agbot_0)/launch/include/mapviz.launch" />
+  <include file="$(find agbot_0)/launch/include/mapviz.launch" >
+    <arg name="xy_origin_initilization" default="stutz"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->>
+  </include>
+
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
   <include file="$(find agbot_0)/launch/urdf.launch" />
+
   <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> 
     
     ### Robot Localization
@@ -40,16 +44,26 @@
         <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
       </include>
 
-      ### Steering Servo
-      <include file="$(find agbot_0)/launch/include/rpi_servo.launch" />
+      ### Steering Linear Acuator
+      
 
       ### Emlid Reach (GPS building nmea_navsat_driver from source)
       <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
-        <arg name="port" default="/dev/ttyACM1"/>
+        <arg name="port" default="/dev/ttyACM0"/>
         <arg name="baud" default="4800"/>
+        <arg name="frame_id" default="gps" />
         <arg name="gps_topic_name" default="/gps/fix"/>
+        <arg name="node_name" default="reach_m_gps"/>
       </include>
-      
+
+      <!--
+      <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
+        <arg name="port" default="/dev/reach_rs_plus"/>
+        <arg name="baud" default="9600"/>
+        <arg name="frame_id" default="gps1" />
+        <arg name="gps_topic_name" default="/gps/fix"/>
+        <arg name="node_name" default="reach_rs_gps"/>
+      </include> -->
 
       ### Phidget IMU
       <include file="$(find agbot_0)/launch/include/phidget_imu.launch">

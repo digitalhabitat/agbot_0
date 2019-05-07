@@ -8,12 +8,15 @@
   ### sudo docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
   ### Then put this URL into the MapViz option "Custom WMTS Source..." http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
 
+
+  <arg name="xy_origin_initilization" default="auto"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->
+
   <arg name="mapvizconfig" default="$(find agbot_0)/config/test0_mapviz.mvc" />
   <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" args="-d $(arg mapvizconfig)" required="true" output="log"/>
 
   <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
     <param name="local_xy_frame" value="map"/>
-    <param name="local_xy_origin" value="auto"/> "auto" setting will set the origin to the first gps fix that it recieves 
+    <param name="local_xy_origin" value="$(arg xy_origin_initilization)"/> "auto" setting will set the origin to the first gps fix that it recieves 
     ### if using auto consider the following:
     ### GPSFix message type subscribes to message topic 'gps' 
     ### NavSatFix message type subscribes to message topic 'fix'

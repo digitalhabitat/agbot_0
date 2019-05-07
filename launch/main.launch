@@ -1,25 +1,31 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- make sure you first ssh into remote machine and run roslaunch agbot_0 rc-car.launch-->
-  <!-- on tx2....     export ROS_MASTER_URI='http://rc-car.local:11311' -->
-  <!-- XXX see rpi.launch for further details -->
+  ### THIS LAUNCH FILE WILL LAUNCH NODES ON THE LOCAL MACHINE AND REMOTE MACHINE (TX2)
+  <!-- In order to run this make sure you are able first ssh into remote machine and setup passworldless ssh -->
+  <!-- On the local machine type the shell comamand 
+    $ export ROS_MASTER_URI='http://rc-car.local:11311'
+    or append the .bashrc file with (for persistent configuration across new terminals)
+    export ROS_MASTER_URI=http://tegra-ubuntu:11311
+    see README.md for further details
+  -->
 
+  <include file="$(find agbot_0)/launch/include/mapviz.launch" >
+    <arg name="xy_origin_initilization" default="stutz"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->>
+  </include>
 
-
-  <include file="$(find agbot_0)/launch/include/mapviz_simple.launch" />
   <include file="$(find agbot_0)/launch/rviz_gui.launch" />
-  <include file="$(find agbot_0)/launch/urdf.launch" />
+  <include file="$(find agbot_0)/launch/urdf.launch" />   
   <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" />
 
-  <machine name="remote_rpi" address="rc-car" env-loader="/home/ubuntu/catkin_ws/src/agbot_0/env.sh" user="ubuntu" default="true"/>
-    
+  <machine name="tx2" address="tegra-ubuntu" env-loader="/home/nvidia/catkin_ws/src/agbot_0/env.sh" user="nvidia" default="true"/> 
+    ### Filepath for include files must be on the local machine running roslaunch
+    ### git clone agbot_0 into ~/catkin_ws/src/ directory to get most recent files
+    ### You can pass different argments such as "auto" or "stutz" for the mapviz.launch files (this doesnt required tranfers to remote machine)
+    ### Changes to launch files such as adding new arguments will require transfering them to the machine that does not have the most recent version
+    ### Changes to node files such as roboclaw_node.py with require transfering them to the machine running that node
+
       ### Robot Localization
-    <include file="$(find agbot_0)/launch/ekf.launch" />
-
-
-    ### Filepath for include files must be on the local machine
-    ### Copy launch directory onto the machine runing roslaunch if you have to
-    ### Use files located in .../agbot_0/launch/ directory
+      <include file="$(find agbot_0)/launch/ekf.launch" />
 
       ### USB/Bluetooth Joystick (connected to local PC)
       <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
@@ -44,15 +50,26 @@
         <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
       </include>
 
-      ### Steering Servo
-      <include file="$(find agbot_0)/launch/include/rpi_servo.launch" />
+      ### Steering Linear Actuator
 
       ### Emlid Reach (GPS building nmea_navsat_driver from source)
+      <!-- See catkin_ws/src/agbot_0/ -->
       <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
-        <arg name="port" default="/dev/ttyACM1"/>
+        <arg name="port" default="/dev/reach_rs_plus"/>
         <arg name="baud" default="4800"/>
+        <arg name="frame_id" default="gps" />
         <arg name="gps_topic_name" default="/gps/fix"/>
+        <arg name="node_name" default="reach_rs_gps"/>
       </include>
+
+      <!--
+      <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
+        <arg name="port" default="/dev/reach_rs_plus"/>
+        <arg name="baud" default="9600"/>
+        <arg name="frame_id" default="gps1" />
+        <arg name="gps_topic_name" default="/gps/fix"/>
+        <arg name="node_name" default="reach_rs_gps"/>
+      </include> -->
       
 
       ### Phidget IMU
@@ -60,7 +77,7 @@
         <arg name="imu_topic_name"  default="imu/data_fixed"/>
         <arg name="period"          default="4"/>
         <arg name="serial_number"   default="-1"/>
-        <!--<arg name="world_frame"     default="enu"/>-->
+        <arg name="world_frame"     default="enu"/>
         <arg name="use_mag"         default="true"/>
         <arg name="use_magnetic_field_msg" default="true"/>
         <arg name="fixed_frame"     default="odom"/>
