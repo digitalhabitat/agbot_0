@@ -1,0 +1,3 @@
+# Persistent Device name for USB Roboclaw 2x60A
+# /dev/roboclaw
+ACTION=="add", ATTRS{idProduct}=="2404", ATTRS{idVendor}=="03eb", SYMLINK+="roboclaw"

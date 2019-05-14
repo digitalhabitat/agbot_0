@@ -1,12 +1,12 @@
 # Persistent Device name for Reach M+ (small on) 
 # USB location matters on the 7 port USB hub
 # Reach M+ must be connected to port #1
-# /dev/reach_M_plus
+# /dev/reach_m_plus
 SUBSYSTEM=="tty", ACTION=="add", ATTRS{product}=="Reach+", ATTRS{devpath}=="2.1", SYMLINK+="reach_m_plus"
 
 
 # Persistent Device name for Reach RS+ (big one) 
 # USB location matters on the 7 port USB hub
 # Reach RS+ must be connected to port #2
-# /dev/reach_M_plus
+# /dev/reach_rs_plus
 SUBSYSTEM=="tty", ACTION=="add", ATTRS{product}=="Reach+", ATTRS{devpath}=="2.2", SYMLINK+="reach_rs_plus"
