@@ -18,7 +18,7 @@
     <arg name="run_diag" default="true"/>
     <arg name="child_frame" default="odom" />
     <arg name="publish_tf" default="true" />
-    <arg name="single_motor" default="true"/>
+    <arg name="single_motor" default="flase"/>
     <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
     <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
 

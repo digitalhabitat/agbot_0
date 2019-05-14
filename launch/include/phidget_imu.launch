@@ -20,7 +20,7 @@
     <remap from="imu/data" to="$(arg imu_topic_name)"/> 
   #### IMU Driver ################################################
   <!-- http://wiki.ros.org/phidgets_imu -->
-  <node pkg="node let" type="nodelet" name="PhidgetsImuNodelet" 
+  <node pkg="nodelet" type="nodelet" name="PhidgetsImuNodelet" 
     args="load phidgets_imu/PhidgetsImuNodelet imu_manager" 
     output="screen">
     # supported data rates: 4 8 16 24 32 40 ... 1000 (in ms)
