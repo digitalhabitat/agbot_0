@@ -13,9 +13,11 @@
     <arg name="xy_origin_initilization" default="stutz"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->>
   </include>
 
-  <include file="$(find agbot_0)/launch/include/rviz_gui.launch" />
-  <include file="$(find agbot_0)/launch/include/urdf.launch" />   
+  <include file="$(find agbot_0)/launch/include/tf_and_node.launch" />
+  <include file="$(find agbot_0)/launch/include/rviz.launch" />   
   <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" />
+  <node name="rqt_logger_level_node" pkg="rqt_logger_level" type="rqt_logger_level" />
+  <node name="rqt_console_node" pkg="rqt_console" type="rqt_console" />
 
   <machine name="tx2" address="tegra-ubuntu" env-loader="/home/nvidia/catkin_ws/src/agbot_0/env.sh" user="nvidia" default="true"/> 
     ### Filepath for include files must be on the local machine running roslaunch
