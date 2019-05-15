@@ -38,7 +38,7 @@
         <arg name="max_forward_vel"     default="0.3"/> # in m/s
         <arg name="max_reverse_vel"     default="0.1"/> # in m/s
         <arg name="max_steering_angle"  default="0.7853982"/> # in radians (45 deg)
-        <arg name="joy_msg"             default="/joy"/>
+        <arg name="joy_msgs"            default="/joy"/>
         <arg name="wheel_base"          default="1.18"/> # distance between front and back tires in meters
       </include>
 

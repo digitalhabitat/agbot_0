@@ -9,7 +9,7 @@
     <arg name="max_forward_vel"     default="0.3"/> # in m/s
     <arg name="max_reverse_vel"     default="0.1"/> # in m/s
     <arg name="max_steering_angle"  default="0.7853982"/> # in radians (45 deg)
-    <arg name="joy_msg"             default="/joy"/>
+    <arg name="joy_msgs"            default="/joy"/>
     <arg name="wheel_base"          default="1.18"/> # distance between front and back tires in meters
 
     <node  pkg="joy" type="joy_node" name="joy_node">
@@ -19,15 +19,15 @@
   	</node>
 
     <node pkg="agbot_0" type="teleop.py" name="teleop_node" >
-      <param name="~max_forward_vel"    value="$(arg max_forward_vel)">
+      <param name="~max_forward_vel"    value="$(arg max_forward_vel)"/>
       <param name="~max_reverse_vel"    value="$(arg max_reverse_vel)"/>
       <param name="~max_steering_angle" value="$(arg max_steering_angle)"/>
       <param name="~ackermann_command"  value="$(arg ackermann_command)"/>
       <param name="~joy_msgs"           value="$(arg joy_msgs)"/>
     </node>
 
-    <node pkg="agbot_0" type="ackermann2twist" name="ackeramnn2twist_node" >
-      <param name="~wheel_base"         value="$(arg wheel_base)">
+    <node pkg="agbot_0" type="ackermann2twist.py" name="ackeramnn2twist_node" >
+      <param name="~wheel_base"         value="$(arg wheel_base)"/>
       <param name="~twist_command"      value="$(arg twist_command)"/>
       <param name="~ackermann_commmand" value="$(arg ackermann_command)"/>
     </node>
