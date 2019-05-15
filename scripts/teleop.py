@@ -68,34 +68,17 @@ class Node:
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
                 self.ackermann_publisher.publish(data)
-                flag =1
-        
-        elif joy.buttons[1]:
-            # also send steering angle 
-            # joy.axes[0] is left +1 to right -1
-            # right turn should be positive steering angle
-            data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
-            self.ackermann_publisher.publish(data)             
+                flag =1        
 
         # deadman switch activated (i think i was trying to make a state-machine)
         elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
             temp = 0
-
 
         if (data.steering_angle != 0.0) and flag == 0 and joy.buttons[1]:
             flag = 0
             data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
             self.ackermann_publisher.publish(data) 
 
-     
-
-        
-        data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
-        self.ackermann_publisher.publish(data)
-
-       
-
-        
 
     def shutdown(self):
         rospy.logwarn("Shutting down")
