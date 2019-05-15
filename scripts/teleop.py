@@ -6,7 +6,7 @@ from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDrive
 
-temp = 0
+temp = 0    
 
 class Node:
 
@@ -35,45 +35,47 @@ class Node:
         global temp 
         flag = 0
         data = AckermannDrive()
+
+        if 
     
         # x button pressed behaves as a deadman, switch R2 is forward L2 is reverse
         
         # if x is engadged and L2 and not active
-        if joy.buttons[1] and not joy.buttons[6]:
-            if not joy.buttons[7]:
-                temp = 1
+        # if joy.buttons[1] and not joy.buttons[6]:
+        #     if not joy.buttons[7]:
+        #         temp = 1
 
-            elif joy.buttons[7] and temp:
-                # if rising edge on R2 drive forward
-                # joy.axes[4] moves from 1 to -1
-                data.speed = self.MAX_FORWARD_VELOCITY*0.5*(-1*(joy.axes[4])+1)
-                # also send steering angle 
-                # joy.axes[0] is left +1 to right -1
-                # right turn should be positive steering angle
-                data.steering_angle = -joy.axes[0]*0.7853981
-                self.ackermann_publisher.publish(data)
-                flag = 1
+        #     elif joy.buttons[7] and temp:
+        #         # if rising edge on R2 drive forward
+        #         # joy.axes[4] moves from 1 to -1
+        #         data.speed = self.MAX_FORWARD_VELOCITY*0.5*(-1*(joy.axes[4])+1)
+        #         # also send steering angle 
+        #         # joy.axes[0] is left +1 to right -1
+        #         # right turn should be positive steering angle
+        #         data.steering_angle = -joy.axes[0]*0.7853981
+        #         self.ackermann_publisher.publish(data)
+        #         flag = 1
                 
 
-         # if x is engadged and R2 and not active
-        elif joy.buttons[1] and not joy.buttons[7]:
-            if not joy.buttons[6]:
-                temp = 1
+        #  # if x is engadged and R2 and not active
+        # elif joy.buttons[1] and not joy.buttons[7]:
+        #     if not joy.buttons[6]:
+        #         temp = 1
 
-            elif joy.buttons[6] and temp:
-                # if rising edge on L2 drive reverse
-                # joy.axes[3] from 1 to -1
-                data.speed = self.MAX_REVERSE_VELOCITY*0.5*(joy.axes[3]-1)
-                # also send steering angle 
-                # joy.axes[0] is left +1 to right -1
-                # right turn should be positive steering angle
-                data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
-                self.ackermann_publisher.publish(data)
-                flag =1        
+        #     elif joy.buttons[6] and temp:
+        #         # if rising edge on L2 drive reverse
+        #         # joy.axes[3] from 1 to -1
+        #         data.speed = self.MAX_REVERSE_VELOCITY*0.5*(joy.axes[3]-1)
+        #         # also send steering angle 
+        #         # joy.axes[0] is left +1 to right -1
+        #         # right turn should be positive steering angle
+        #         data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
+        #         self.ackermann_publisher.publish(data)
+        #         flag =1        
 
-        # deadman switch activated (i think i was trying to make a state-machine)
-        elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
-            temp = 0
+        # # deadman switch activated (i think i was trying to make a state-machine)
+        # elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
+        #     temp = 0
 
         if (data.steering_angle != 0.0) and flag == 0 and joy.buttons[1]:
             data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
