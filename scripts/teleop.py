@@ -50,6 +50,7 @@ class Node:
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*0.7853981
+                self.ackermann_publisher.publish(data)
                 
 
          # if x is engadged and R2 and not active
@@ -65,6 +66,7 @@ class Node:
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*0.7853981
+                self.ackermann_publisher.publish(data)
             
                 
 
@@ -72,7 +74,7 @@ class Node:
         elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
             temp = 0 
 
-        self.ackermann_publisher.publish(data)
+       
 
         
 
