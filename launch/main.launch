@@ -30,6 +30,9 @@
       ### Robot Localization
       <include file="$(find agbot_0)/launch/include/ekf.launch" />
 
+      ### Jrk Steering Controller
+      <include file="$(find agbot_0)/launch/include/jrk.launch" />
+
       ### USB/Bluetooth Joystick (connected to local PC)
       <include file="$(find agbot_0)/launch/include/teleop.launch" >
         <arg name="joy_dev"             default="/dev/input/js0" />
