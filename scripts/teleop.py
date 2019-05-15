@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import rospy
 import time
-import sys
+import 
+import math
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDrive
@@ -23,7 +24,7 @@ class Node:
 
         # Subscribers and Publishers
         self.joy_subscriber = rospy.Subscriber(self.JOY_MSGS, Joy, self.joy_callback)
-        self.ackermann_publisher = rospy.Publisher(self.ACKERMANN_COMMAND, AckermannDrive, queue_size="1")
+        self.ackermann_publisher = rospy.Publisher(self.ACKERMANN_COMMAND, AckermannDrive, queue_size="2")
 
         
     def run(self):
@@ -33,7 +34,6 @@ class Node:
 
     def joy_callback(self, joy):
         global temp 
-        flag = 0
         data = AckermannDrive()
     
         # x button pressed behaves as a deadman, switch R2 is forward L2 is reverse
@@ -50,9 +50,8 @@ class Node:
                 # also send steering angle 
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
-                data.steering_angle = -joy.axes[0]*0.7853981
+                data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
                 self.ackermann_publisher.publish(data)
-                flag = 1
                 
 
          # if x is engadged and R2 and not active
@@ -68,12 +67,10 @@ class Node:
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
-                self.ackermann_publisher.publish(data)
-                flag =1        
+                self.ackermann_publisher.publish(data)     
 
         # deadman switch activated (i think i was trying to make a state-machine)
-        elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
-            temp = 0
+        elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] 
 
     def shutdown(self):
         rospy.logwarn("Shutting down")
