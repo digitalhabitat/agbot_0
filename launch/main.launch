@@ -53,7 +53,7 @@
         <arg name="run_diag" default="true"/>
         <arg name="child_frame" default="robot_base" />
         <arg name="publish_tf" default="false" /> 
-        <arg name="twist_topic_name" default="/cmd_vel"/>
+        <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
         <arg name="single_motor" default="false"/>
         <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
       </include>
