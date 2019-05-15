@@ -9,17 +9,18 @@
 	<!-- use math above to get ticks_per_meters = 111.41-->
 	<!-- base width is the length between left and right rear wheels -->
 
-    <arg name="dev" default="/dev/ttyACM0"/>
+
+    <arg name="dev" default="/dev/roboclaw"/>
     <arg name="baud" default="115200"/>
     <arg name="address" default="128"/>
     <arg name="max_speed" default="2.0"/>
-    <arg name="ticks_per_meter" default="111.41"/>
-    <arg name="base_width" default="0.21"/>
+    <arg name="ticks_per_meter" default="43339.4366031"/>
+    <arg name="base_width" default="0.41"/> <!-- 1.17 meters long 0.41 meters wide -->
     <arg name="run_diag" default="true"/>
-    <arg name="child_frame" default="odom" />
-    <arg name="publish_tf" default="true" />
-    <arg name="single_motor" default="flase"/>
+    <arg name="child_frame" default="robot_base" />
+    <arg name="publish_tf" default="false" />
     <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
+    <arg name="single_motor" default="false"/>
     <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
 
     <!-- make sure type = "roboclaw_node.py" is executable use $ chmod +x roboclaw_node.py in term--> 
