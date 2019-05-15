@@ -6,7 +6,7 @@ from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDrive
 
-temp = 0, flag = 0
+temp = 0
 
 class Node:
 
@@ -32,7 +32,8 @@ class Node:
 
 
     def joy_callback(self, joy):
-        global temp flag
+        global temp 
+        flag = 0
         data = AckermannDrive()
     
         # x button pressed behaves as a deadman, switch R2 is forward L2 is reverse
@@ -75,7 +76,6 @@ class Node:
             temp = 0
 
         if (data.steering_angle != 0.0) and flag == 0 and joy.buttons[1]:
-            flag = 0
             data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
             self.ackermann_publisher.publish(data) 
 
