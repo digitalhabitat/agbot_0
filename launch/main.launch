@@ -31,10 +31,11 @@
       <include file="$(find agbot_0)/launch/include/ekf.launch" />
 
       ### USB/Bluetooth Joystick (connected to local PC)
-      <include file="$(find agbot_0)/launch/include/teleop.launch" >
-        <arg name="joy_dev"              default="/dev/input/js0" /> 	 
-        <arg name="ackermann_topic_name" default="/joy/ackermann_steering"/>
-        <arg name="cmd_vel_topic_name"   default="/joy/cmd_vel"/>
+      <include file="$(find agbot_0)/launch/include/teleop_local.launch" >
+        <arg name="joy_dev"         default="/dev/input/js0" /> 	
+        <arg name="config_filepath" default="$(find agbot_0)/config/teleop-rc-car-slow.yaml" /> 
+        <arg name="ackermann_topic_name" default="/ackermann_steering"/>
+        <arg name="cmd_vel_topic_name" default="/cmd_vel"/>
       </include>
 
       ### Roboclaw

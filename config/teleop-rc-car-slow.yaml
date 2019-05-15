@@ -8,8 +8,8 @@ teleop:
       -
         axis: 4 # right shoulder trigger to control wheel speed
         target: linear.x
-        scale: -0.4
-        offset: 0.4
+        scale: -0.2
+        offset: 0.2
   steering_servo:
     type: topic
     message_type: ackermann_msgs/AckermannDrive
