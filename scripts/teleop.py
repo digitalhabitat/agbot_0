@@ -67,6 +67,13 @@ class Node:
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*0.7853981
                 self.ackermann_publisher.publish(data)
+        
+        elif joy.buttons[1]:
+            # also send steering angle 
+            # joy.axes[0] is left +1 to right -1
+            # right turn should be positive steering angle
+            data.steering_angle = -joy.axes[0]*0.7853981
+            self.ackermann_publisher.publish(data)
             
                 
 
