@@ -36,7 +36,7 @@ class Node:
         data.linear.x = ackermann.speed
         data.angular.z = (ackermann.speed/self.WHEEL_BASE)*math.tan(ackermann.steering_angle)
         
-        self.twist_publisher(data)
+        self.twist_publisher.publish(data)
 
     def shutdown(self):
         rospy.logwarn("Shutting down")

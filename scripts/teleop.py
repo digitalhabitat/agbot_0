@@ -36,7 +36,7 @@ class Node:
         data = AckermannDrive()
     
         # x button pressed behaves as a deadman, switch R2 is forward L2 is reverse
-
+        
         # if x is engadged and L2 and not active
         if joy.buttons[1] and not joy.buttons[6]:
             if not joy.buttons[7]:
@@ -50,26 +50,31 @@ class Node:
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*0.7853981
-                self.ackermann_publisher.publish(data)
+                
 
          # if x is engadged and R2 and not active
         elif joy.buttons[1] and not joy.buttons[7]:
             if not joy.buttons[6]:
                 temp = 1
-                
+
             elif joy.buttons[6] and temp:
                 # if rising edge on L2 drive reverse
                 # joy.axes[3] from 1 to -1
-                data.linear.x = self.MAX_REVERSE_VELOCITY*0.5*(joy.axes[3]-1)
+                data.speed = self.MAX_REVERSE_VELOCITY*0.5*(joy.axes[3]-1)
                 # also send steering angle 
                 # joy.axes[0] is left +1 to right -1
                 # right turn should be positive steering angle
                 data.steering_angle = -joy.axes[0]*0.7853981
-                self.ackermann_publisher.publish(data)
+            
+                
 
         # deadman switch activated
         elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] or joy.buttons[0] or (not joy.buttons[6] and temp) or not joy.buttons[0] or joy.buttons[7] or joy.buttons[1]:
             temp = 0 
+
+        self.ackermann_publisher.publish(data)
+
+        
 
     def shutdown(self):
         rospy.logwarn("Shutting down")

@@ -1,19 +1,35 @@
 <?xml version="1.0"?>
 <launch>
 
-<!-- joy_node parameters this node subscribes to sensor_msg --> 
-    <!-- <arg name="joy_config"      default="ps4" /> -->
-  	<arg name="joy_dev"              default="/dev/input/js0" /> 	 
-    <arg name="ackermann_topic_name" default="/joy/ackermann_steering"/>
-    <arg name="cmd_vel_topic_name"   default="/joy/cmd_vel"/>
-    
+  # teleop parameters
+
+  	<arg name="joy_dev"             default="/dev/input/js0" />
+    <arg name="ackermann_command"   default="/ackermann"/>
+    <arg name="twist_command"       default="/roboclaw/cmd_vel"/>
+    <arg name="max_forward_vel"     default="0.3"/> # in m/s
+    <arg name="max_reverse_vel"     default="0.1"/> # in m/s
+    <arg name="max_steering_angle"  default="0.7853982"/> # in radians (45 deg)
+    <arg name="joy_msg"             default="/joy"/>
+    <arg name="wheel_base"          default="1.18"/> # distance between front and back tires in meters
+
     <node  pkg="joy" type="joy_node" name="joy_node">
-        <param name="dev"             value="$(arg joy_dev)" />  	 
-	      <param name="deadzone"        value="0.0" />
-        <param name="autorepeat_rate" value="1" />
+      <param name="dev"             value="$(arg joy_dev)" />  	 
+	    <param name="deadzone"        value="0.0" />
+      <param name="autorepeat_rate" value="1" />
   	</node>
 
-    <node pkg="agbot_0" type="teleop.py" name="teleop_node"/>
+    <node pkg="agbot_0" type="teleop.py" name="teleop_node" >
+      <param name="~max_forward_vel"    value="$(arg max_forward_vel)">
+      <param name="~max_reverse_vel"    value="$(arg max_reverse_vel)"/>
+      <param name="~max_steering_angle" value="$(arg max_steering_angle)"/>
+      <param name="~ackermann_command"  value="$(arg ackermann_command)"/>
+      <param name="~joy_msgs"           value="$(arg joy_msgs)"/>
+    </node>
 
+    <node pkg="agbot_0" type="ackermann2twist" name="ackeramnn2twist_node" >
+      <param name="~wheel_base"         value="$(arg wheel_base)">
+      <param name="~twist_command"      value="$(arg twist_command)"/>
+      <param name="~ackermann_commmand" value="$(arg ackermann_command)"/>
+    </node>
 
 </launch>
