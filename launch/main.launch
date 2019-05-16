@@ -30,7 +30,7 @@
       ### Robot Localization
       <include file="$(find agbot_0)/launch/include/ekf.launch" />
 
-      ### Jrk Steering Controller
+      ### Steering Linear Actuatory
       <include file="$(find agbot_0)/launch/include/jrk.launch" />
 
       ### USB/Bluetooth Joystick (connected to local PC)
@@ -60,8 +60,6 @@
         <arg name="single_motor" default="false"/>
         <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
       </include>
-
-      ### Steering Linear Actuator
 
       ### Emlid Reach (GPS building nmea_navsat_driver from source)
       <!-- See catkin_ws/src/agbot_0/ -->

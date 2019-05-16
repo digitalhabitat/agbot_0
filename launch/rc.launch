@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  ### THIS LAUNCH FILE WILL LAUNCH NODES JUST FOR REMOTE CONTROL
+
+  <machine name="tx2" address="tegra-ubuntu" env-loader="/home/nvidia/catkin_ws/src/agbot_0/env.sh" user="nvidia" default="true"/> 
+
+      ### Steering Linear Actuatory
+      <include file="$(find agbot_0)/launch/include/jrk.launch" />
+
+      ### USB/Bluetooth Joystick (connected to local PC)
+      <include file="$(find agbot_0)/launch/include/teleop.launch" >
+        <arg name="joy_dev"             default="/dev/input/js0" />
+        <arg name="ackermann_command"   default="/ackermann"/>
+        <arg name="twist_command"       default="/roboclaw/cmd_vel"/>
+        <arg name="max_forward_vel"     default="0.3"/> # in m/s
+        <arg name="max_reverse_vel"     default="0.1"/> # in m/s
+        <arg name="max_steering_angle"  default="0.7853982"/> # in radians (45 deg)
+        <arg name="joy_msgs"            default="/joy"/>
+        <arg name="wheel_base"          default="1.18"/> # distance between front and back tires in meters
+      </include>
+
+      ### Roboclaw
+      <include file="$(find agbot_0)/launch/include/roboclaw.launch">
+        <arg name="dev" default="/dev/roboclaw"/>
+        <arg name="baud" default="115200"/>
+        <arg name="address" default="128"/>
+        <arg name="max_speed" default="2.0"/>
+        <arg name="ticks_per_meter" default="43339.4366031"/>
+        <arg name="base_width" default="0.41"/> <!-- 1.17 meters long 0.41 meters wide -->
+        <arg name="run_diag" default="true"/>
+        <arg name="child_frame" default="robot_base" />
+        <arg name="publish_tf" default="false" /> 
+        <arg name="twist_topic_name" default="/roboclaw/cmd_vel"/>
+        <arg name="single_motor" default="false"/>
+        <arg name="odom_topic_name" default="/wheel_encoder/odom"/>
+      </include>
+
+</launch>
