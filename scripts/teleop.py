@@ -70,7 +70,8 @@ class Node:
                 self.ackermann_publisher.publish(data)     
 
         # deadman switch activated (i think i was trying to make a state-machine)
-        elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6] 
+        elif (not joy.buttons[7] and temp) or not joy.buttons[1] or joy.buttons[6]:
+            temp = 0 
 
     def shutdown(self):
         rospy.logwarn("Shutting down")
