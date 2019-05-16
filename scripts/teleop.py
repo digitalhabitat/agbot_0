@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 import rospy
 import time
-import 
-import math
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDrive
+
+
 
 temp = 0
 
 class Node:
 
     def __init__(self):
-        rospy.init_node('joy_telop_node')
-        rospy.on_shutdown(self.shutdown)
 
         # Parameters
+        self.DEV = rospy.get_param("~dev", "/dev/ttyAMC1")
         self.MAX_FORWARD_VELOCITY = float(rospy.get_param("~max_forward_vel", "0.3")) # in m/s
         self.MAX_REVERSE_VELOCITY = float(rospy.get_param("~max_reverse_vel", "0.1")) # in m/s
         self.MAX_STEERING_ANGLE = float(rospy.get_param("~max_steering_angle", "0.7853982")) # in radians (45 deg)
@@ -25,6 +24,12 @@ class Node:
         # Subscribers and Publishers
         self.joy_subscriber = rospy.Subscriber(self.JOY_MSGS, Joy, self.joy_callback)
         self.ackermann_publisher = rospy.Publisher(self.ACKERMANN_COMMAND, AckermannDrive, queue_size="2")
+
+        ser = serial.Serial( "/dev/ttyACM0", 9600)
+        #ser = serial.Serial( "/dev/ttyACM0", 115200)
+        print("connected to: " + ser.portstr)
+        rospy.init_node('joy_telop_node')
+        rospy.on_shutdown(self.shutdown)
 
         
     def run(self):
