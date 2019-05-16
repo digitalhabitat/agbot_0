@@ -1,4 +1,12 @@
 <?xml version="1.0" ?>
 <launch>
-	<node pkg="jrk_motor_node" type="jrk_subscribe.py" name="jrk_subscriber" output="screen"/>
+
+	<arg name="dev" default="/dev/tty/AMC1"/>
+	<arg name="baud" default="9600"/>
+	
+	<node pkg="jrk_motor_node" type="jrk_subscribe.py" name="jrk_subscriber" output="screen">
+		<param name="~dev"  value="$(arg dev)"/>
+    	<param name="~baud"  value="$(arg baud)"/>
+	</node>
+
 </launch>
