@@ -3,8 +3,9 @@
 
 	<arg name="dev" default="/dev/tty/AMC1"/>
 	<arg name="baud" default="9600"/>
+	<arg name="ackermann_command" default="ackermann"/>
 	
-	<node pkg="jrk_motor_node" type="jrk_subscribe.py" name="jrk_subscriber" output="screen">
+	<node pkg="jrk_motor_node" type="jrk_subscribe_orig.py" name="jrk_subscriber" output="screen">
 		<param name="~dev"  value="$(arg dev)"/>
     	<param name="~baud"  value="$(arg baud)"/>
 	</node>
