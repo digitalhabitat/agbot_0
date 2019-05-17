@@ -1,11 +1,33 @@
 # agbot_0 Workspace
-File structure assumptions:
-```
-~/catkin_ws/src/agbot_0
-```
 -------------
+## Quick teleop start-up
+1. Turn on Emlid Reach RS+ (on the very top of the AgBot)
+Make sure the Reach is in hotspot mode(verify with mobile app or check WiFi on mobile phone... might take a minute if turning on)
+2. Connect phone to the Emlid Reach hotspot.
+3. Press the precharge button located on the power box.
+4. Turn on AgBot Main Power by turning the Red side mounted E-Switch (Clockwise)
+5. Switch on Wireless relay power located on the Power Box(White LED on Wireless relay box will light)
+6. Press the Lejin Wireless Remote Button 1 (White LED on Power Box will light).
+7. Turn on the Nvidia TX2. (Amber rocker switch inside tool box enclosure)
+8. SSH with Termius app or PC terminal with ```ssh nvidia@tegra-ubuntu```
+9. Turn on DS4 Bluetooth controller
+10. ```roslaunch agbot_0 rc.launch```
+
+-------------
+## Remote PC Setup
+File structure assumptions on tx2:
+```
+nvidia@tegra-ubuntu:~/catkin_ws/src$ ls
+agbot_0  CMakeLists.txt  jrk_motor_node  roboclaw_node
+```
+File structure assumptions on personal computer to roslaunch nodes remotly:
+```
+user@machine:~/catkin_ws/src$ ls
+agbot_0  jrk_motor_node  mapviz  nmea_navsat_driver  roboclaw_node
+```
+
 ## Basic rc-car startup
-To launch devices nodes remotely from a local machine on to the Raspberry Pi (rpi):
+To launch devices nodes remotely from a local machine on to the TX2:
 ```bash
 $ export ROS_MASTER_URI='http://rc-car.local:11311'
 $ ros launch agbot_0 rpi.launch
@@ -34,7 +56,7 @@ $ ros launch agbot_0 rpi.launch
 	+ https://github.com/digitalhabitat/roboclaw_node
 
 + #### Steering Controller (Jrk G2 24v13)
-	+ TBA
+	+ https://github.com/digitalhabitat/jrk_motor_node
 
 + #### Emlid Reach M+
 	+ http://wiki.ros.org/nmea_navsat_driver (building from source)
