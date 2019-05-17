@@ -5,7 +5,12 @@
   <machine name="tx2" address="tegra-ubuntu" env-loader="/home/nvidia/catkin_ws/src/agbot_0/env.sh" user="nvidia" default="true"/> 
 
       ### Steering Linear Actuatory
-      <include file="$(find agbot_0)/launch/include/jrk.launch" />
+      <include file="$(find agbot_0)/launch/include/jrk.launch" >
+        <arg name="baud"                 default="9600"/>
+        <arg name="scale"                default="2500"/>
+        <arg name="offset"               default="2048"/>
+        <arg name="ackermann_topic_name" default="ackermann"/>
+      </include>
 
       ### USB/Bluetooth Joystick (connected to local PC)
       <include file="$(find agbot_0)/launch/include/teleop.launch" >

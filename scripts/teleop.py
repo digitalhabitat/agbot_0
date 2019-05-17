@@ -49,8 +49,9 @@ class Node:
                 data.speed = self.MAX_FORWARD_VELOCITY*0.5*(-1*(joy.axes[4])+1)
                 # also send steering angle 
                 # joy.axes[0] is left +1 to right -1
-                # right turn should be positive steering angle
-                data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
+                # right turn should correspond to a negative steering angle
+                # left turn should correspond to positive steering angle
+                data.steering_angle = joy.axes[0]*self.MAX_STEERING_ANGLE
                 self.ackermann_publisher.publish(data)
                 
 
@@ -65,8 +66,9 @@ class Node:
                 data.speed = self.MAX_REVERSE_VELOCITY*0.5*(joy.axes[3]-1)
                 # also send steering angle 
                 # joy.axes[0] is left +1 to right -1
-                # right turn should be positive steering angle
-                data.steering_angle = -joy.axes[0]*self.MAX_STEERING_ANGLE
+                # right turn should correspond to a negative steering angle
+                # left turn should correspond to a positivev steering angle
+                data.steering_angle = joy.axes[0]*self.MAX_STEERING_ANGLE
                 self.ackermann_publisher.publish(data)     
 
         # deadman switch activated (i think i was trying to make a state-machine)

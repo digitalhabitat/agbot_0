@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-  ### THIS LAUNCH FILE WILL LAUNCH NODES ON THE LOCAL MACHINE AND REMOTE MACHINE (TX2)
+  ### THIS LAUNCH FILE WILL LAUNCH NODES ON THE REMOTE MACHINE (TX2)
 
   <machine name="tx2" address="tegra-ubuntu" env-loader="/home/nvidia/catkin_ws/src/agbot_0/env.sh" user="nvidia" default="true"/> 
   
     ### Steering Linear Actuatory
     <include file="$(find agbot_0)/launch/include/jrk.launch" >
-        <arg name="dev" 	default="/dev/tty/AMC1"/>
-	<arg name="baud" 	default="9600"/>
+      <arg name="baud"                 default="9600"/>
+      <arg name="scale"                default="2500"/>
+      <arg name="offset"               default="2048"/>
+      <arg name="ackermann_topic_name" default="ackermann"/>
     </include>
 
     ###

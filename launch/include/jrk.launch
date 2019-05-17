@@ -1,13 +1,17 @@
 <?xml version="1.0" ?>
 <launch>
 
-	<arg name="dev" default="/dev/tty/AMC1"/>
-	<arg name="baud" default="9600"/>
-	<arg name="ackermann_command" default="ackermann"/>
-	
-	<node pkg="jrk_motor_node" type="jrk_subscribe_orig.py" name="jrk_subscriber" output="screen">
-		<param name="~dev"  value="$(arg dev)"/>
-    	<param name="~baud"  value="$(arg baud)"/>
-	</node>
+  <arg name="baud"                 default="9600"/>
+  <arg name="scale"                default="2500"/>
+  <arg name="offset"               default="2048"/>
+  <arg name="ackermann_topic_name" default="ackermann"/>
+
+  <node pkg="jrk_motor_node" type="jrk_ackermann.py" name="jrk_steering_node" output="screen">
+    <param name="~baud"                 value="$(arg baud)"/>
+    <param name="~scale"                value="$(arg scale)"/>
+    <param name="~offset"               value="$(arg offset)"/>
+    <param name="~ackeramn_topic_name"  value="$(arg ackermann_topic_name)"/>
+  </node>
 
 </launch>
+
