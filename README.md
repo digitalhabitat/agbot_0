@@ -82,39 +82,42 @@ $ ros launch agbot_0 rpi.launch
 ### Main Systems and Hardware Devices
 
 + #### Computer System
-	+ Nvidia Jetson TX2
-	+ USB Hub
-	+ Playstation DS4 Controller
+	+ [Nvidia Jetson TX2](https://developer.nvidia.com/embedded/buy/jetson-tx2-devkit)
+	+ [7-Port USB Hub](https://www.amazon.com/Anker-7-Port-Adapter-Charging-iPhone/dp/B014ZQ07NE)
+	+ [Playstation DS4 Controller](https://www.amazon.com/DualShock-Wireless-Controller-PlayStation-Black-4/dp/B01LWVX2RG/ref=sr_1_3?crid=2YIUM2G6CQ5XL&keywords=ps4+controller&qid=1559175826&s=electronics&sprefix=ps+4+con%2Celectronics%2C149&sr=1-3)
 
 + #### Drive System
-	+ Motor Controller: Roboclaw 2x60A
-	+ Motor Encoder: US Digital (E2-500-375-NE-D-G-1)
-	+ Motor: AmpFlow Gearmotor (E30-400-G)
+	+ Motor Controller: [Roboclaw 2x60A](https://www.pololu.com/product/3289) 
+	+ Motor Encoder: [US Digital (E2-500-375-NE-D-G-1)](https://www.usdigital.com/products/encoders/incremental/rotary/kit/E2)
+	+ Motor: [AmpFlow Gearmotor (E30-400-G)](http://www.ampflow.com/ampflow_gearmotors.htm)
 
 + #### Steering System
-	+ Linear Acutor w/ Feedback: Glideforce LACT4P-12V-20
-	+ Steering Controller: Jrk G2 24v13
+	+ Linear Acutor w/ Feedback: [Glideforce LACT4P-12V-20](https://www.pololu.com/product/2305)
+	+ Steering Controller: [Jrk G2 24v13](https://www.pololu.com/product/3147)
 
 + #### Odometry and Localization System
-	+ GPS: Emlid Reach M+
-	+ IMU+Compass: PhidgetSpatial Precision 3/3/3 (1044_0B)
-	+ INDOT RTK Corrections
+	+ GPS: [Emlid Reach M+](https://emlid.com/reach/)
+	+ GPS: [Emlid Reach RS+](https://emlid.com/reachrs/)
+	+ GPS Antenna: [Tallysman GNSS antenna for Reach M+](https://store.emlid.com/product/tallysman-multi-gnss-antenna/)
+	+ IMU+Compass: [PhidgetSpatial Precision 3/3/3 (1044_0B)](https://www.phidgets.com/?tier=3&catid=10&pcid=8&prodid=1038)
+	+ IMU+Compass: [Tinkerforge IMU Brick 2.0](https://www.tinkerforge.com/en/shop/bricks/imu-v2-brick.html)
+	+ RTK Base Station: [INDOT RTK Corrections](https://incors.in.gov/rtk.aspx)
 	+ Drive System Encoders
-	+ Visual Odometry: Intel RealSense D435
+	+ Visual Odometry: [Intel RealSense D435](https://store.intelrealsense.com/buy-intel-realsense-depth-camera-d435.html)
 
 + #### Wireless Network System
-	+ 5 GHz Radio: Ubiquity Rocket M5
-	+ Omnidirectional antenna: (Ubiquiti AMO-5G10)
+	+ 5 GHz Radio: [Ubiquity Rocket M5](https://store.ui.com/collections/wireless/products/rocket-m5)
+	+ Omnidirectional antenna: [Ubiquiti AMO-5G10](https://store.ui.com/collections/wireless/products/5ghz-airmax-omni-10dbi-rocket-kit)
 
 + #### Power System
-	+ 12V LiFePO4 100 Ah Battery
-	+ 12V Lead-Acid 21 Ah Battery
-	
+	+ [12V LiFePO4 100 Ah Battery](https://battlebornbatteries.com/shop/12v-lifepo4-deep-cycle-battery/)
+	+ 2x12V Lead-Acid 7Ah Batteries(For Computer and Roboclaw logic battery
+)	
 + #### Mining System
-	+ Relay Module
-	+ 4-Way Solenoide: McMaster-Carr 6124k287
-	+ Motor Controller: Roboclaw 2x15A
-	+ Gear Motor: uxcell DC 12 Motor
+	+ [Lejin Wireless Relay, 8 channel-12V](https://www.amazon.com/Lejin-Wireless-Multifunction-Empanender-Transmitter/dp/B07944GQ6C)
+	+ 4-Way Solenoide: [McMaster-Carr 6124k287](https://www.mcmaster.com/6124k287)
+	+ Motor Controller: [Roboclaw 2x15A](https://www.pololu.com/product/3285)
+	+ Gear Motor: [uxcell DC 12 Motor](https://www.amazon.com/dp/B0788CMXGP/ref=twister_B07CSWCZRV?_encoding=UTF8&psc=1)
 	
 ### Abstract Hardware Diagram
 ![HW_Diagram](https://raw.githubusercontent.com/iupui-agbot/agbot_0/master/images/agbot_hw_system_diagram.png)
