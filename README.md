@@ -51,24 +51,53 @@ $ ros launch agbot_0 rpi.launch
 
 -------------
 
-## ROS Device/Sensor Packages
+## ROS Packages & Launch files (To run on the agbot runing roscore)
 + #### Roboclaw
 	+ https://github.com/digitalhabitat/roboclaw_node
+		+ [roboclaw.launch](launch/include/roboclaw.launch)
 
 + #### Steering Controller (Jrk G2 24v13)
 	+ https://github.com/digitalhabitat/jrk_motor_node
+		+ [jrk.launch](launch/include/jrk.launch)
 
 + #### Emlid Reach M+
-	+ http://wiki.ros.org/nmea_navsat_driver (building from source)
-		+ nmea_serial_driver
+	+ http://wiki.ros.org/nmea_navsat_driver (building from source, nmea_serial_driver)
+		+ [emlid_gps.launch](launch/include/emlid_gps.launch)
 
 + #### PhidgetSpatial Precision 3/3/3 (1044_0B)
 	+ http://wiki.ros.org/phidgets_imu
 	+ http://wiki.ros.org/imu_filter_madgwick
+		+ [phidget_imu.launch](launch/include/phidget_imu.launch)
+	
++ #### Tinkerforge Brick 2.0 (Not yet utilized)
+	+ https://github.com/droter/tinkerforge_imu_v2
+		+ https://github.com/gus484/ros-tinkerforge_sensors
 
-+ #### Playstation 4 Controller
++ #### Playstation 4 Controller & Teleoperation (with bluetooth and ackermann-to-twist topic converserion nodes)
 	+ http://wiki.ros.org/joy
-	+ http://wiki.ros.org/joy_teleop	
+	+ http://wiki.ros.org/joy_teleop
+		+ [teleop.launch](launch/include/teleop.launch)
+
++ #### Localization (Sensor Fusion)
+	+ http://wiki.ros.org/robot_localization
+		+ [ekf.launch](launch/include/ekf.launch)
+
+## ROS Packages & Launch files (To run on remote PC)
++ #### Vizualization
+	+ http://wiki.ros.org/mapviz
+	+ http://wiki.ros.org/rviz
+		+ [mapviz.launch](launch/include/mapviz.launch)
+		+ [rviz.launch](launch/include/rviz.launch)
+	
++ #### Playstation 4 controller (launch file for Teleop over wifi not developed yet)
+
++ #### Debuging Tools
+	+ http://wiki.ros.org/rqt_graph
+	+ http://wiki.ros.org/rqt_tf_tree
+	+ http://wiki.ros.org/rqt_robot_monitor
+	+ http://wiki.ros.org/rqt_logger_level
+	+ http://wiki.ros.org/rqt_console
+		+ [tf_and_node.launch](launch/include/tf_and_node.launch)
 
 ### Early Testing Platform
 + #### rc-car 
@@ -86,10 +115,10 @@ $ ros launch agbot_0 rpi.launch
 	+ [7-Port USB Hub](https://www.amazon.com/Anker-7-Port-Adapter-Charging-iPhone/dp/B014ZQ07NE)
 	+ [Playstation DS4 Controller](https://www.amazon.com/DualShock-Wireless-Controller-PlayStation-Black-4/dp/B01LWVX2RG/ref=sr_1_3?crid=2YIUM2G6CQ5XL&keywords=ps4+controller&qid=1559175826&s=electronics&sprefix=ps+4+con%2Celectronics%2C149&sr=1-3)
 
-+ #### Drive System
++ #### Drive System (RWD)
 	+ Motor Controller: [Roboclaw 2x60A](https://www.pololu.com/product/3289) 
-	+ Motor Encoder: [US Digital (E2-500-375-NE-D-G-1)](https://www.usdigital.com/products/encoders/incremental/rotary/kit/E2)
-	+ Motor: [AmpFlow Gearmotor (E30-400-G)](http://www.ampflow.com/ampflow_gearmotors.htm)
+	+ Motor Encoders: [US Digital (E2-500-375-NE-D-G-1)](https://www.usdigital.com/products/encoders/incremental/rotary/kit/E2)
+	+ Motors: [AmpFlow Gearmotor (E30-400-G)](http://www.ampflow.com/ampflow_gearmotors.htm)
 
 + #### Steering System
 	+ Linear Acutor w/ Feedback: [Glideforce LACT4P-12V-20](https://www.pololu.com/product/2305)
