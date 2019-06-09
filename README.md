@@ -149,5 +149,7 @@ $ ros launch agbot_0 rpi.launch
 	+ Gear Motor: [uxcell DC 12 Motor](https://www.amazon.com/dp/B0788CMXGP/ref=twister_B07CSWCZRV?_encoding=UTF8&psc=1)
 	
 ### Abstract Hardware Diagram
-![HW_Diagram](https://raw.githubusercontent.com/iupui-agbot/agbot_0/master/images/agbot_hw_system_diagram.png)
+![HW_Diagram](https://raw.githubusercontent.com/digitalhabitat/agbot_0/master/images/agbot_system_diagram.png)
+
+[Click here](https://www.draw.io/?title=agbot_system_diagram.png&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdigitalhabitat%2Fagbot_0%2Fmaster%2Fimages%2Fagbot_system_diagram.png%3Ft%3D0) to edit this image in a browser (?t=0 to bypass caches). Use the [Chrome App](https://chrome.google.com/webstore/detail/drawio-desktop/pebppomjfocnoigkeepgbmcifnnlndla) for native PNG+XML 
 
