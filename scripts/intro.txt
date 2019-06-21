@@ -1,0 +1,27 @@
+               __              __               __     
+              /\ \            /\ \__          /'__`\   
+   __       __\ \ \____    ___\ \ ,_\        /\ \/\ \  
+ /'__`\   /'_ `\ \ '__`\  / __`\ \ \/        \ \ \ \ \ 
+/\ \L\.\_/\ \L\ \ \ \L\ \/\ \L\ \ \ \_        \ \ \_\ \
+\ \__/.\_\ \____ \ \_,__/\ \____/\ \__\        \ \____/
+ \/__/\/_/\/___L\ \/___/  \/___/  \/__/  _______\/___/ 
+            /\____/                     /\______\      
+            \_/__/                      \/______/      
+
+Welcome to IUPUI's semi-autonomous agricultural robot!
+
+For additional information please checkout the link below
+
+https://github.com/digitalhabitat/agbot_0
+
+---------------[ Quick Start up ]---------------
+
+  To get the agbot moving perfrom the following steps
+
+  1.) Turn the red mounted switch clock wise
+
+  2.) Press the 1 Button on the Lejin Relay remote (a LED should turn on)
+
+  3.) Turn on the PS4 controller
+
+  4.) Type...  roslaunch agbot_0 rc.launch

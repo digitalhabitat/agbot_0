@@ -1,0 +1,41 @@
+#!/usr/bin/python
+
+from roboclaw import Roboclaw
+import time
+import os
+from subprocess import Popen, PIPE
+from termcolor import colored
+
+#Windows comport name
+#rc = Roboclaw("COM9",115200)
+#Linux comport name
+
+print("----------------Checking roboclaw----------------")
+rc = Roboclaw("/dev/roboclaw",115200)
+data = rc.Open()
+if data==0:
+  print colored("roboclaw NOT detected","red")
+else:
+  print colored("roboclaw is OK","green")
+  print("port: "+rc._port.port)
+  print("baud: "+str(rc._port.baudrate))
+  data = rc.ReadVersion(0x80)
+  print("version: "+data[1])
+
+
+print ("---------------Checking jrk----------------")
+command = 'jrk2cmd --cmd-port'
+process =  Popen(command, stdout=PIPE, stderr=PIPE, shell=True)
+
+#Launch the shell command:
+stdout, stderr = process.communicate()
+
+if len(stdout.split())==0:
+  print colored(stderr, "red")
+else:
+  print colored("Jrk is OK","green")
+  print("port: "+stdout)
+
+#data = os.poipen(cmd).read()
+#data = data.rstrip("\n")
+#print "         port: "+data
