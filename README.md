@@ -1,17 +1,21 @@
-# agbot_0 Workspace
--------------
-## Quick teleop start-up
-1. Turn on Emlid Reach RS+ (on the very top of the AgBot)
-Make sure the Reach is in hotspot mode(verify with mobile app or check WiFi on mobile phone... might take a minute if turning on)
-2. Connect phone to the Emlid Reach hotspot.
-3. Press the precharge button located on the power box.
-4. Turn on AgBot Main Power by turning the Red side mounted E-Switch (Clockwise)
-5. Switch on Wireless relay power located on the Power Box(White LED on Wireless relay box will light)
-6. Press the Lejin Wireless Remote Button 1 (White LED on Power Box will light).
-7. Turn on the Nvidia TX2. (Amber rocker switch inside tool box enclosure)
-8. SSH with Termius app or PC terminal with ```ssh nvidia@tegra-ubuntu```
-9. Turn on DS4 Bluetooth controller
-10. ```roslaunch agbot_0 rc.launch```
+# agbot_0
+
+## Quick start up
+
+To get the agbot moving perfrom the following steps
+
+1. Turn on the Nvidia TX2 by fliping the amber rocker switch inside the tool box encolsure (Green LED on TX2 will light)
+2. Connect a computer or phone to the TX2 hotspot or the local wifi 
+3. Switch on the AgBot's main power by turning the red mounted E-Switch. (Clockwise)
++ ***THIS IS THE ONBOARD EMERGENCY STOP***
+4. Switch on the *Lejin Wireless Relay* power located on the Power Box. (White LED on Wireless relay box will light)
+5. On the *Lejin Wireless Remote* press button 1. (White LED on Power Box will light). 
++ ***THIS IS THE WIRELESS EMERGENCY STOP***
+6. Connect to the TX2 via SSH `ssh nvidia@tegra-ubuntu` (If using a phone use the Terminus App)
+7. Turn on the PS4 controller
+8. In the terminal enter `checkusb` (This verifies the drive and steering system is ready)
+9. In the terminal enter `roslaunch agbot_0 rc.launch` ( Ctrl-C to terminate program)
+10. Holding ✕... To drive forward gently press R2. To drive reverse gently press L2. Use left joystick to steer.
 
 -------------
 ## Remote PC Setup
