@@ -4,7 +4,8 @@
 
 To get the agbot moving perfrom the following steps
 
-1. Turn on the Nvidia TX2 by fliping the amber rocker switch inside the tool box encolsure (Green LED on TX2 will light)
+0. Switch on the 12 volt Logic battery by fliping the amber rocker switch inside the tool box encolsure.
+1. Turn on the Nvidia TX2 by pressing the right most button. (Green LED on TX2 will light)
 2. Connect a computer or phone to the TX2 hotspot or the local wifi 
 3. Switch on the AgBot's main power by turning the red mounted E-Switch. (Clockwise)
 + ***THIS IS THE ONBOARD EMERGENCY STOP***
