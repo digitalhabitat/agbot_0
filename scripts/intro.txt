@@ -18,10 +18,12 @@ https://github.com/digitalhabitat/agbot_0
 
   To get the agbot moving perfrom the following steps
 
-  1.) Turn the red mounted switch clock wise
+  0.) Turn the red mounted switch clock wise
 
-  2.) Press the 1 Button on the Lejin Relay remote (a LED should turn on)
+  1.) Press the 1 Button on the Lejin Relay remote (a LED should turn on)
 
-  3.) Turn on the PS4 controller
+  2.) Turn on the PS4 controller
+
+  3.) Type...  checkusb (This verifies the drive and steering system is ready)
 
   4.) Type...  roslaunch agbot_0 rc.launch

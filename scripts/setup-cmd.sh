@@ -1,3 +1,8 @@
-cp ~/catkin_ws/src/agbot_0/scripts/checkusb /usr/local/bin
-cp ~/catkin_ws/src/agbot_0/scripts/roboclaw.py /usr/local/bin
-echo "you can now type use \"checkusb\" as a command" 
+# Appending PATH enviorment variable
+
+echo "# Adding checkusb command to be run from anywhere in the terminal" >> ~/.bashrc
+echo "export PATH=\$PATH:~/catkin_ws/src/agbot_0/scripts" >> ~/.bashrc
+export PATH=$PATH:~/catkin_ws/src/agbot_0/scripts
+
+echo "you can now type use \"checkusb\" as a command"
+echo "NOTE: You first must open a new terminal for changes to take effect" 

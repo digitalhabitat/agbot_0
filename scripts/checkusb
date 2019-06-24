@@ -21,6 +21,11 @@ else:
   print("baud: "+str(rc._port.baudrate))
   data = rc.ReadVersion(0x80)
   print("version: "+data[1])
+  data = rc.ReadLogicBatteryVoltage(0x80)
+  print("Logic Battery Voltage: "+str(data[1]))
+  data = rc.ReadMainBatteryVoltage(0x80)
+  print("Main Battery Voltage: "+str(data[1]))
+  print("")
 
 
 print ("---------------Checking jrk----------------")
