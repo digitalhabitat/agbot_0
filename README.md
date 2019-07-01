@@ -158,3 +158,6 @@ $ ros launch agbot_0 rpi.launch
 
 [Click here](https://www.draw.io/?title=agbot_system_diagram.png&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdigitalhabitat%2Fagbot_0%2Fmaster%2Fimages%2Fagbot_system_diagram.png%3Ft%3D0) to edit this image in a browser (?t=0 to bypass caches). Use the [Chrome App](https://chrome.google.com/webstore/detail/drawio-desktop/pebppomjfocnoigkeepgbmcifnnlndla) for native PNG+XML 
 
+### Wiring Diagram
+![HW_Diagram](https://raw.githubusercontent.com/digitalhabitat/agbot_0/master/images/wiring_diagram.png)
+[Click here](https://www.draw.io/?title=agbot_system_diagram.png&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdigitalhabitat%2Fagbot_0%2Fmaster%2Fimages%2Fwiring_diagram.png%3Ft%3D0) to edit this image in a browser (?t=0 to bypass caches). Use the [Chrome App](https://chrome.google.com/webstore/detail/drawio-desktop/pebppomjfocnoigkeepgbmcifnnlndla) for native PNG+XML 
