@@ -1,5 +1,9 @@
 # agbot_0
 
+IUPUI's robot for the 2019 Mining for Microbes and Microfauna Agbot Challenge
+
+![AgBot Photo](https://raw.githubusercontent.com/digitalhabitat/agbot_0/master/images/agbot_photo0.jpg)
+
 ## Quick start up
 
 To get the agbot moving perfrom the following steps
@@ -7,11 +11,9 @@ To get the agbot moving perfrom the following steps
 0. Switch on the 12 volt Logic battery by fliping the amber rocker switch inside the tool box encolsure.
 1. Turn on the Nvidia TX2 by pressing the right most button. (Green LED on TX2 will light)
 2. Connect a computer or phone to the TX2 hotspot or the local wifi 
-3. Switch on the AgBot's main power by turning the red mounted E-Switch. (Clockwise)
-+ ***THIS IS THE ONBOARD EMERGENCY STOP***
+3. Switch on the AgBot's main power by turning the red mounted E-Switch. (Clockwise) ***THIS IS THE ONBOARD EMERGENCY STOP***
 4. Switch on the *Lejin Wireless Relay* power located on the Power Box. (White LED on Wireless relay box will light)
-5. On the *Lejin Wireless Remote* press button 1. (White LED on Power Box will light). 
-+ ***THIS IS THE WIRELESS EMERGENCY STOP***
+5. On the *Lejin Wireless Remote* press button 1. (White LED on Power Box will light). ***THIS IS THE WIRELESS EMERGENCY STOP***
 6. Connect to the TX2 via SSH `ssh nvidia@tegra-ubuntu` (If using a phone use the Terminus App)
 7. Turn on the PS4 controller
 8. In the terminal enter `checkusb` (This verifies the drive and steering system is ready)
