@@ -6,7 +6,7 @@ IUPUI's robot for the 2019 Mining for Microbes and Microfauna Agbot Challenge
 
 ## Quick start up
 
-To get the agbot moving perfrom the following steps
+To get the agbot moving perform the following steps
 
 0. Switch on the 12 volt Logic battery by fliping the amber rocker switch inside the tool box encolsure.
 1. Turn on the Nvidia TX2 by pressing the right most button. (Green LED on TX2 will light)
@@ -21,7 +21,55 @@ To get the agbot moving perfrom the following steps
 10. Holding ✕... To drive forward gently press R2. To drive reverse gently press L2. Use left joystick to steer.
 
 -------------
-## Remote PC Setup
+## Table of Contents
+
+
+## Precautions and Troubleshooting
+
++ The agbot does not stop moving or shows delayed control
+	+ The Drive motors will go into a run away state if the wheel encoders are disconnected or intermittent. Ensure that the wheel encoder wire connections are properly attached and secure. Verify safe functionality on a jack stand before operating on the the lab floor. Always be ready to press button 1 on the wireless relay remote to activate the Emergency Stop in case this event occurs. ***NEVER STAND DIRECTLY IN FRONT OR BEHIND THE AGBOT***
+	+ The PID controller configuration may need additional tunning.
+	+ Delayed control around 1-2 sec at worst is typical.
+
++ `ssh nvidia@tegra-ubuntu` is not working
+	+ The IP address of the TX2 is liable to changing. It might be necessary to accesses the local wifi router setup page or use a network scanner app to verify the IP address of the TX2 replacing `ssh nvidia@tegra-ubuntu` with `ssh nvidia@192.168.X.XXX` This IP address can be mapped to the hostname `tegra-ubuntu` by appending `etc/hosts` file on Linux.
+	+ It maybe neccesary physically log onto the machine and verify network connenction with Ubiquity antenna. 
+
++ The TX2 does not turn on
+	+ Ensure the Batteries are fully charged
+	+ Check Voltage at the ouput of the 12V regulator.
+	+ Check Fuse
+	+ Disconnect the barrel plug on the TX2 and wait 15 seconds then reconnect the barrel plug
+	+ Attach Battery to Charger while attempting to turn on the TX2
+	+ Use diffently Power Suppply. Sometimes the LiFePO4 battery is more reliable.
+
++ The TX2 loses power when operating
+	+ The TX2 and be powered by either the LiFePO4 battery or the Lead Acid Battery. The drive motors can cause system brown-outs on the LiFePO4 Power Supply. To avoid the TX2 reseting, use the Lead-Acid Batteries or a separate Power Supply.
+
++ The PS2 controller is not working
+	+ The PS2 controller may need to be charged. A glowing orange light will indicate it is properly charging.
+
++ `catkin buid` is failing
+	+ the dependencies have not been properly updated in 'agbot_0/package.xml' for this project. You may need to inspect the build error message to figure out which software package could not be found. The solution usually looks something like this... `sudo apt install ros-kinetic-some_package` or `sudo apt install some_library` or you may be able to just run `rodep update`
+
++ The Drive motors are not working
+	+ Run 'checkusb' and verify the Roboclaw is properly wired and recieving 12V
+	+ Reset power
+	+ Alternate usb ports or bypass the usb hub and connect directly to the tx2.
+	+ The PID controller configuration may need additional tunning.
+	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev)
+
++ The Steering is not working
+	+ Run 'checkusb' and verify the Jrk is properly and recieving 12V
+	+ Reset power
+	+ Alternate usb ports or bypass the usb hub and connect directly to the tx2.
+	+ The PID controller configuration may need additional tunning.
+	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev)
+
++ `roslaunch agbot_0 main.launch` is not working
+	+ `main.launch` and `ekf.launch` are the most pertinent files for this project. Locailization is has only been experimentally verified for this project. It will be neccesary to play with the parameters or comment out sections to pinpoint the root cause. `main.launch` was intended to be launch from a remote linux PC on the same newtork to use MapViz and other GUIs. The PS2 controller has yet to be configured to connect through the remote linux PC, so its range will be limited to Bluetooth.
+
+## Local Machine Setup  
 File structure assumptions on tx2:
 ```
 nvidia@tegra-ubuntu:~/catkin_ws/src$ ls
@@ -33,7 +81,6 @@ user@machine:~/catkin_ws/src$ ls
 agbot_0  jrk_motor_node  mapviz  nmea_navsat_driver  roboclaw_node
 ```
 
-## Basic rc-car startup
 To launch devices nodes remotely from a local machine on to the TX2:
 ```bash
 $ export ROS_MASTER_URI='http://rc-car.local:11311'
@@ -44,19 +91,6 @@ $ ros launch agbot_0 rpi.launch
 echo "ROS_MASTER_URI=http://rc-car.local:11311" >> ~/.bashrc 
 ```
 This can also done by manually editing ~/.bashrc
-
--------------
-
-## Basic rc-car startup (with ssh)
-Launching device nodes on the rpi directly within an ssh session:
-```bash
-$ ssh ubuntu@rc-car
-$ sudo pigpiod
-$ ros launch agbot_0 rpi.launch
-```
-***NOTE:*** The above commands assumes both machines, local and remote are connected on a common wifi network
-
--------------
 
 ## ROS Packages & Launch files (To run on the agbot runing roscore)
 + #### Roboclaw
