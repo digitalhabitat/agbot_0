@@ -20,8 +20,21 @@ To get the agbot moving perform the following steps
 9. In the terminal enter `roslaunch agbot_0 rc.launch` ( Ctrl-C to terminate program)
 10. Holding ✕... To drive forward gently press R2. To drive reverse gently press L2. Use left joystick to steer.
 
--------------
 ## Table of Contents
+
+[Precautions and Troubleshooting](https://github.com/digitalhabitat/agbot_0#precautions-and-troubleshooting)
+
+[Local Machine Setup](https://github.com/digitalhabitat/agbot_0#local-machine-setup)
+
+[ROS Packages & Launch files (To run on the agbot runing roscore)](https://github.com/digitalhabitat/agbot_0#ros-packages--launch-files-to-run-on-the-agbot-runing-roscore)
+
+[ROS Packages & Launch files (To run on remote PC)](https://github.com/digitalhabitat/agbot_0#ros-packages--launch-files-to-run-on-remote-pc)
+
+[Main System and Hardware Devices](https://github.com/digitalhabitat/agbot_0#main-systems-and-hardware-devices)
+
+[Abstract Diagram](https://github.com/digitalhabitat/agbot_0#abstract-hardware-diagram)
+
+[Wiring Diagram](https://github.com/digitalhabitat/agbot_0#wiring-diagram)
 
 
 ## Precautions and Troubleshooting
@@ -75,7 +88,7 @@ File structure assumptions on tx2:
 nvidia@tegra-ubuntu:~/catkin_ws/src$ ls
 agbot_0  CMakeLists.txt  jrk_motor_node  roboclaw_node
 ```
-File structure assumptions on personal computer to roslaunch nodes remotly:
+File structure assumptions on local machine to roslaunch nodes remotely:
 ```
 user@machine:~/catkin_ws/src$ ls
 agbot_0  jrk_motor_node  mapviz  nmea_navsat_driver  roboclaw_node
@@ -140,16 +153,7 @@ This can also done by manually editing ~/.bashrc
 	+ http://wiki.ros.org/rqt_console
 		+ [tf_and_node.launch](launch/include/tf_and_node.launch)
 
-### Early Testing Platform
-+ #### rc-car 
-	+ Raspberry Pi 3 B+ Flashed with Ubiquity Robotics Raspbeery Pi Image
-	+ Steering Servo:
-	+ Motor Controler: Roboclaw 2x15A
-	+ Quadrature Encoder: JGA25-370-12V-201rpm (only encoder)
-	+ GPS: Emlid Reach M+
-	+ IMU + Compass: PhidgetSpatial Precision 3/3/3 (1044_0B)
-
-### Main Systems and Hardware Devices
+## Main Systems and Hardware Devices
 
 + #### Computer System
 	+ [Nvidia Jetson TX2](https://developer.nvidia.com/embedded/buy/jetson-tx2-devkit)
@@ -188,12 +192,20 @@ This can also done by manually editing ~/.bashrc
 	+ 4-Way Solenoide: [McMaster-Carr 6124k287](https://www.mcmaster.com/6124k287)
 	+ Motor Controller: [Roboclaw 2x15A](https://www.pololu.com/product/3285)
 	+ Gear Motor: [uxcell DC 12 Motor](https://www.amazon.com/dp/B0788CMXGP/ref=twister_B07CSWCZRV?_encoding=UTF8&psc=1)
-	
-### Abstract Hardware Diagram
+
++ #### Early Testing Platform
+	+ Raspberry Pi 3 B+ Flashed with Ubiquity Robotics Raspbeery Pi Image
+	+ Steering Servo:
+	+ Motor Controler: Roboclaw 2x15A
+	+ Quadrature Encoder: JGA25-370-12V-201rpm (only encoder)
+	+ GPS: Emlid Reach M+
+	+ IMU + Compass: PhidgetSpatial Precision 3/3/3 (1044_0B)
+
+## Abstract Hardware Diagram
 ![HW_Diagram](https://raw.githubusercontent.com/digitalhabitat/agbot_0/master/images/agbot_system_diagram.png)
 
 [Click here](https://www.draw.io/?title=agbot_system_diagram.png&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdigitalhabitat%2Fagbot_0%2Fmaster%2Fimages%2Fagbot_system_diagram.png%3Ft%3D0) to edit this image in a browser (?t=0 to bypass caches). Use the [Chrome App](https://chrome.google.com/webstore/detail/drawio-desktop/pebppomjfocnoigkeepgbmcifnnlndla) for native PNG+XML 
 
-### Wiring Diagram
+## Wiring Diagram
 ![HW_Diagram](https://raw.githubusercontent.com/digitalhabitat/agbot_0/master/images/wiring_diagram.png)
 [Click here](https://www.draw.io/?title=wiring_diagram.png&url=https%3A%2F%2Fraw.githubusercontent.com%2Fdigitalhabitat%2Fagbot_0%2Fmaster%2Fimages%2Fwiring_diagram.png%3Ft%3D0) to edit this image in a browser (?t=0 to bypass caches). Use the [Chrome App](https://chrome.google.com/webstore/detail/drawio-desktop/pebppomjfocnoigkeepgbmcifnnlndla) for native PNG+XML 
