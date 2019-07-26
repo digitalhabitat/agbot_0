@@ -81,6 +81,21 @@ To get the agbot moving perform the following steps
 
 + `roslaunch agbot_0 main.launch` is not working
 	+ `main.launch` and `ekf.launch` are the most pertinent files for this project. Locailization is has only been experimentally verified for this project. It will be neccesary to play with the parameters or comment out sections to pinpoint the root cause. `main.launch` was intended to be launch from a remote linux PC on the same newtork to use MapViz and other GUIs. The PS2 controller has yet to be configured to connect through the remote linux PC, so its range will be limited to Bluetooth.
+	+ See [robot_localization](http://docs.ros.org/melodic/api/robot_localization/html/index.htm)
+	
++ Emlid GPS is not working
+	+ The Emlid GPS does get a good enough signal inside the lab
+	+ Install Emlid Reach phone app or enter in the IP address in a browser to access the configurations
+	+ The Emlid GPS currently can only use NTRIP services for INDOT RTK corrections directly over wifi. They eventually must be configured to connect the a wifi router that is on-board the Agbot or the TX2 configured as an Access Point/Hotspot to take advatage of the Ubiquity antenna network connection. However the wifi signal is usually good enough on the south side of the building. 
+	+ A possible work around to recieve INDOT RTK corrections with the Emlid configured to receive corrections over USB is to use an NTRIP Client on the TX2 using `str2str` See (https://manpages.debian.org/unstable/rtklib/str2str.1.en.html)
+	+ See [launch/test_gps.launch](https://github.com/digitalhabitat/agbot_0/blob/master/launch/test_gps.launch)
+	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev) 
+
++ Phidgets IMU is not working
+	+ This project had limited success with the accuracy of the Phidgets IMU use `rostopic listen` to verify data is recieved
+	+ I may be better to setup and use Tinkerforge Brick 2.0 IMU in tandem 
+	+ See [Phidgets User Guide](https://www.phidgets.com/?tier=3&catid=10&pcid=8&prodid=1158#Windows)
+	+ See [Preparing Sensor Data]http://docs.ros.org/melodic/api/robot_localization/html/preparing_sensor_data.html
 
 ## Local Machine Setup  
 File structure assumptions on tx2:
@@ -96,12 +111,12 @@ agbot_0  jrk_motor_node  mapviz  nmea_navsat_driver  roboclaw_node
 
 To launch devices nodes remotely from a local machine on to the TX2:
 ```bash
-$ export ROS_MASTER_URI='http://rc-car.local:11311'
-$ ros launch agbot_0 rpi.launch
+$ export ROS_MASTER_URI='http://tegra-ubuntu.local:11311'
+$ ros launch agbot_0 main.launch
 ```
 ***NOTE:*** "$ export ROS_MASTER_URI=" only needs to be run once for a given terminal. The following command can use to set the envirment variable for every new terminal.
 ```bash
-echo "ROS_MASTER_URI=http://rc-car.local:11311" >> ~/.bashrc 
+echo "ROS_MASTER_URI=http://tegra-ubuntu.local:11311" >> ~/.bashrc 
 ```
 This can also done by manually editing ~/.bashrc
 
