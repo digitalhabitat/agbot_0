@@ -42,7 +42,7 @@ Button 3 will extend/retract the soil probe.
 
 + The agbot does not stop moving or shows delayed control
 	+ The Drive motors will go into a run away state if the wheel encoders are disconnected or intermittent. Ensure that the wheel encoder wire connections are properly attached and secure. Verify safe functionality on a jack stand before operating on the the lab floor. Always be ready to press button 1 on the wireless relay remote to activate the Emergency Stop in case this event occurs. ***NEVER STAND DIRECTLY IN FRONT OR BEHIND THE AGBOT***
-	+ The PID controller configuration may need additional tunning.
+	+ The PID controller configuration may need additional tunning. See [BasicMicro Motion Studio](https://www.basicmicro.com/downloads)
 	+ Delayed control around 1-2 sec at worst is typical.
 
 + `ssh nvidia@tegra-ubuntu` is not working
@@ -68,29 +68,36 @@ Button 3 will extend/retract the soil probe.
 
 + The Drive motors are not working
 	+ Run 'checkusb' and verify the Roboclaw is properly wired and recieving 12V
-	+ Reset power
+	+ Reset and/or Disconnect power
 	+ Alternate usb ports or bypass the usb hub and connect directly to the tx2.
-	+ The PID controller configuration may need additional tunning.
+	+ The PID controller configuration may need additional tunning. See [BasicMicro Motion Studio](https://www.basicmicro.com/downloads)
+	+ See [roboclaw_node](https://github.com/digitalhabitat/roboclaw_node)
+		+ [roboclaw.launch](launch/include/roboclaw.launch)
 	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev)
+	+ Helpful commands `lsusb` `dmesg --follow` `tldr`
 
 + The Steering is not working
 	+ Run 'checkusb' and verify the Jrk is properly and recieving 12V
-	+ Reset power
+	+ Reset and/or Disconnect power
 	+ Alternate usb ports or bypass the usb hub and connect directly to the tx2.
-	+ The PID controller configuration may need additional tunning.
+	+ The PID controller configuration may need additional tunning. See [Jrk G2 Software](https://www.pololu.com/product/3147/resources)
+	+ See [jrk_motor_node](https://github.com/digitalhabitat/jrk_motor_node)
+		+ [jrk.launch](launch/include/jrk.launch)
 	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev)
+	+ Helpful commands `jrk2cmd --status --full` `lsusb` `dmesg --follow` `tldr`
 
 + `roslaunch agbot_0 main.launch` is not working
 	+ `main.launch` and `ekf.launch` are the most pertinent files for this project. Locailization is has only been experimentally verified for this project. It will be neccesary to play with the parameters or comment out sections to pinpoint the root cause. `main.launch` was intended to be launch from a remote linux PC on the same newtork to use MapViz and other GUIs. The PS2 controller has yet to be configured to connect through the remote linux PC, so its range will be limited to Bluetooth.
 	+ See [robot_localization](http://docs.ros.org/melodic/api/robot_localization/html/index.htm)
 	
 + Emlid GPS is not working
-	+ The Emlid GPS does get a good enough signal inside the lab
+	+ The Emlid GPS does not get a good enough signal inside the lab, the south side of the building outside usually works fine.
 	+ Install Emlid Reach phone app or enter in the IP address in a browser to access the configurations
 	+ The Emlid GPS currently can only use NTRIP services for INDOT RTK corrections directly over wifi. They eventually must be configured to connect the a wifi router that is on-board the Agbot or the TX2 configured as an Access Point/Hotspot to take advatage of the Ubiquity antenna network connection. However the wifi signal is usually good enough on the south side of the building. 
 	+ A possible work around to recieve INDOT RTK corrections with the Emlid configured to receive corrections over USB is to use an NTRIP Client on the TX2 using `str2str` See (https://manpages.debian.org/unstable/rtklib/str2str.1.en.html)
 	+ See [launch/test_gps.launch](https://github.com/digitalhabitat/agbot_0/blob/master/launch/test_gps.launch)
 	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev) 
+	+ Helpful commands `lsusb` `dmesg --follow` `tldr`
 
 + Phidgets IMU is not working
 	+ This project had limited success with the accuracy of the Phidgets IMU use `rostopic listen` to verify data is recieved
