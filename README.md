@@ -19,7 +19,8 @@ To get the agbot moving perform the following steps
 8. In the terminal enter `checkusb` (This verifies the drive and steering system is ready)
 9. In the terminal enter `roslaunch agbot_0 rc.launch` ( Ctrl-C to terminate program)
 10. Holding ✕... To drive forward gently press R2. To drive reverse gently press L2. Use left joystick to steer.
-
+11. On the *Lejin Wireless Remote* button 2 will close the solenoid for the air tank to build pressure (Not necessary to penetrate soft soil). 
+Button 3 will extend/retract the soil probe.
 ## Table of Contents
 
 [Precautions and Troubleshooting](https://github.com/digitalhabitat/agbot_0#precautions-and-troubleshooting)
