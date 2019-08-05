@@ -81,6 +81,7 @@ Button 3 will extend/retract the soil probe.
 	+ Reset and/or Disconnect power
 	+ Alternate usb ports or bypass the usb hub and connect directly to the tx2.
 	+ The PID controller configuration may need additional tunning. See [Jrk G2 Software](https://www.pololu.com/product/3147/resources)
+	+ The verticle coupling attached to the linear actuator is susceptible to sliping. You may need to tighten this with a hex key.
 	+ See [jrk_motor_node](https://github.com/digitalhabitat/jrk_motor_node)
 		+ [jrk.launch](launch/include/jrk.launch)
 	+ See [udev](https://github.com/digitalhabitat/agbot_0/tree/master/udev)
