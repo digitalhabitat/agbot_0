@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+
+<robot name="sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="height1" value="0.2" />
+  <xacro:property name="width" value="0.2" />
+
+  <xacro:property name="wheelbase" value="0.222" />
+  <xacro:property name="width" value="0.100" />
+  <xacro:property name="height" value="0.110" />
+  <xacro:property name="ground_offset" value="0.070" />                 <!-- box model z_distancec above ground-->
+  
+  <xacro:property name="wheel_offset" value="0.025" />
+  <xacro:property name="wheel_radius" value="0.06" />
+  <xacro:property name="wheel_length" value="0.055" />
+  
+  <xacro:property name="laser_distance_from_base_link" value="0.275" /> <!-- along x-axis-->
+  <xacro:property name="laser_height" value="0.05" />
+  <xacro:property name="laser_radius" value="0.026" />
+  
+  <xacro:property name="imu_distance_from_base_link" value="0.1" />     <!-- along x-axis-->
+  <xacro:property name="imu_height" value="0.01" />
+  <xacro:property name="imu_radius" value="0.025" />
+  
+  <xacro:property name="gps_distance_from_base_link" value="0.0" />     <!-- along x-axis-->
+  <xacro:property name="gps_distance_from_platform" value="0.2" />      <!-- along z-axis -->
+  <xacro:property name="gps_model_height" value="0.01" /> 
+  <xacro:property name="gps_model_radius" value="0.025" />
+
+  <material name="black">
+    <color rgba="0.2 0.2 0.2 1"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0.3 0.57 1 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="${255/255} ${153/255} ${51/255} 1.0"/>
+  </material>
+
+  <material name="green">
+    <color rgba="${0/255} ${255/255} ${0/255} 1.0"/>
+  </material>
+
+  <material name="magenta">
+    <color rgba="${255/255} ${102/255} ${255/255} 1.0"/>
+  </material>
+
+ <!-- Used for fixing robot to Gazebo 'base_link' -->
+  ### base link
+  <link name="robot_base">
+    <visual>
+      <origin xyz="${wheelbase/2} 0 ${ground_offset+height/2}"/>    <!-- rectangular platform z_dist above ground-->
+      <geometry>
+        <box size="${wheelbase} ${width} ${height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="${wheelbase/2} 0 ${ground_offset+height/2}"/>    <!-- rectangular platform z_dist above ground-->
+      <geometry>
+        <box size="${wheelbase} ${width} ${height}"/>
+      </geometry>
+    </collision>
+  </link>
+
+   ### imu
+  <joint name="base_to_imu" type="fixed">
+    <parent link="robot_base"/>
+    <child link="imu_sensor"/>
+    <origin xyz="${imu_distance_from_base_link} 0 ${ground_offset+height+(imu_height/2)}"/>
+  </joint>
+
+  <link name="imu_sensor">
+    <visual>
+      <geometry>
+        <cylinder radius="${imu_radius}" length="${imu_height}"/>
+        <!--mesh filename="package://agbot_0/meshes/sorting_tray_centered.stl" scale="0.001 0.001 0.001"-->
+      </geometry>
+      <material name="magenta"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${imu_radius}" length="${imu_height}"/>
+        <!--mesh filename="package://agbot_0/meshes/sorting_tray_centered.stl" scale="0.001 0.001 0.001"-->
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+
+    ### gps
+  <joint name="base_to_gps" type="fixed">
+    <parent link="robot_base"/>
+    <child link="gps_sensor"/>
+    <origin xyz="${gps_distance_from_base_link} 0 ${ground_offset+height+(gps_model_height/2)+gps_distance_from_platform}"/>
+  </joint>
+
+  <link name="gps_sensor">
+    <collision>
+      <geometry>
+        <cylinder radius="${gps_model_radius}" length="${gps_model_height}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <cylinder radius="${gps_model_radius}" length="${gps_model_height}"/>
+        <!--mesh filename="package://agbot_0/meshes/sorting_tray_centered.stl" scale="0.001 0.001 0.001"-->
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+
+  ### Back left wheel
+  <joint name="base_to_back_left_wheel" type="continuous">
+    <parent link="robot_base"/>
+    <child link="back_left_wheel"/>
+    <origin xyz="0 ${(wheel_length+width)/2+wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="back_left_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link>
+
+    ### Back right wheel
+  <joint name="base_to_back_right_wheel" type="continuous">
+    <parent link="robot_base"/>
+    <child link="back_right_wheel"/>
+    <origin xyz="0 ${-(wheel_length+width)/2-wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="back_right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial> 
+  </link>
+
+<!-- Front left wheel description -->
+  ### base to 
+  ### front left wheel steering hinge joint (this pivots the wheel direction)
+  <joint name="base_to_front_left_hinge" type="fixed"> ## fixed type for testing
+    <parent link="robot_base"/>
+    <child link="front_left_hinge"/>
+    <origin xyz="${wheelbase} ${(width)/2+wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  ### front left steering hinge link
+  <link name="front_left_hinge">
+     <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius/4}" length="${wheel_radius}"/>
+      </geometry>
+      <material name="green"/>
+      <origin rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>  
+  </link>
+  
+  ### left wheel steering hinge to
+  ### left wheel joint (this joint allows the wheel to roll)
+  <joint name="front_left_hinge_to_wheel" type="continuous">
+    <parent link="front_left_hinge"/>
+    <child link="front_left_wheel"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 ${(wheel_length)/2} 0"/>
+  </joint>
+
+  ### front left wheel visual
+  <link name="front_left_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial> 
+  </link>
+
+<!--Front Right wheel description-->
+  ### base to 
+  ### front right wheel steering hinge joint (this pivots the wheel direction)
+  <joint name="base_to_front_right_hinge" type="fixed"> ## fixed type for testing
+    <parent link="robot_base"/>
+    <child link="front_right_hinge"/>
+    <origin xyz="${wheelbase} ${-(width)/2-wheel_offset} ${wheel_radius}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+### front right steering hinge link
+  <link name="front_right_hinge">
+     <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius/4}" length="${wheel_radius}"/>
+      </geometry>
+      <material name="red"/>
+      <origin rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial> 
+  </link>
+
+  ### right wheel steering hinge to
+  ### right wheel joint (this joint allows the wheel to roll) 
+  <joint name="front_right_hinge_to_wheel" type="continuous">
+    <parent link="front_right_hinge"/>
+    <child link="front_right_wheel"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 ${-(wheel_length)/2} 0"/>
+  </joint>
+
+  ### front right wheel link/visual
+  <link name="front_right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="${pi/2} 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial> 
+  </link>
+
+ <gazebo reference="sensor">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_sensor</bodyName>
+      <frameName>imu_sensor</frameName>
+      <topicName>/imu/data</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>20.0</updateRate>
+    </plugin>
+
+    <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so">
+        <updateRate>4.0</updateRate>
+        <bodyName>gps_sensor</bodyName>
+        <frameId>gps_sensor</frameId>
+        <topicName>/gps/fix</topicName>
+        <velocityTopicName>/gps/fix_velocity</velocityTopicName>
+        <referenceLatitude>39.78020</referenceLatitude>
+        <referenceLongitude>-86.16289</referenceLongitude>
+        <referenceHeading>90</referenceHeading>
+        <referenceAltitude>10</referenceAltitude>
+        <offset>0 0 0</offset>
+        <drift>0.001 0.001 0.001</drift>
+        <gaussianNoise>5.0 5.0 5.0</gaussianNoise>
+        <velocityDrift>0.001 0.001 0.001</velocityDrift>
+        <velocityGaussianNoise>0.5 0.5 0.5</velocityGaussianNoise>
+<!--                <drift>0.001 0.001 0.001</drift>-->
+<!--                <gaussianNoise>0.01 0.01 0.01</gaussianNoise>-->
+<!--                <velocityDrift>0 0 0</velocityDrift>-->
+<!--                <velocityGaussianNoise>0.05 0.05 0.05</velocityGaussianNoise>-->
+    </plugin>
+  </gazebo>
+
+</robot>

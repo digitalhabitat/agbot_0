@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<launch>
+  #############################################################################
+  #                                                                           #
+  #  test_mapviz.launch                                                       #
+  #                                                                           #
+  #  This launch file is to test the following on a local machine:            #
+  #  - gazebo (for simulatied imu/gps data                                    #
+  #  - ekf_locaization_node (global and local)                                #
+  #  - navsat_transform_node (modifies gps data)                              #
+  #  - robot_state_publisher (works with gazebo)                              #
+  #  - initialize_origin (works with mapvviz to load maptile w/o gps data     #
+  #  - baselink_to_robot_base static transform (typical tf stuff)             #
+  #  - mapviz (graphic user infterface node)                                  #
+  #                                                                           #
+  #  *Apply torque to one of the wheels in gazebo (left-click for options)    #
+  #  *You should see interesting results in mapviz                            #
+  #  *GPS data is static (moving in gazebo does not affect data)              #
+  #                                                                           #
+  #                                                                           #
+  ############################################################################# 
+  <!-- XXX if you cant get tile_map to work try buidling from source this will solve any hidden dependency issues XXX-->
+  <!-- https://github.com/swri-robotics/mapviz -->.
+  
+  <!--https://github.com/danielsnider/MapViz-Tile-Map-Google-Maps-Satellite -->
+  ### sudo docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
+  ### Then put this URL into the MapViz option "Custom WMTS Source..." http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
+
+  ### for origin initialization "auto"(will use gps data) "stutz"(if indoors)
+  ### "auto" will not work without a gps sensor
+  <arg name="xy_origin_initilization" default="stutz"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->
+
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="false"/>
+  <arg name="world_name" default="worlds/empty.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+
+  <!-- Start gazebo and load the world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
+
+
+    <!-- Spawn the example robot with simulated gps data -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find agbot_0)/urdf/master_sim.xacro'" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param /robot_description -model example"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+  <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+  ### wgs84 to map transfrom node 
+  ### (this is needed initialize map frame with wgs84 frame used by mapviz)
+  <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
+    <param name="local_xy_frame" value="map"/>
+    <param name="local_xy_origin" value="$(arg xy_origin_initilization)"/> "auto" setting will set the origin to the first gps fix that it recieves 
+    ### if using auto consider the following:
+    ### GPSFix message type subscribes to message topic 'gps' 
+    ### NavSatFix message type subscribes to message topic 'fix'
+    <remap from="fix" to="/gps/fix"/> 
+    <rosparam param="local_xy_origins">
+      [{ name: stutz,
+         latitude: 39.78020,
+         longitude: -86.16289,
+         altitude: 33.719,
+         heading: 0.0},
+         
+       { name: beck_ag_center,
+         latitude: 40.4692641,
+         longitude: -86.9929879,
+         altitude: 200.0,
+         heading: 0.0}]
+    </rosparam>
+  </node>
+
+  ### Mapviz Node  
+  <arg name="mapvizconfig" default="$(find agbot_0)/config/test0_mapviz.mvc" />
+  <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" args="-d $(arg mapvizconfig)" required="true" output="log"/>
+
+  ###  TF tree vizualization
+  <node name="rqt_tf_tree" pkg="rqt_tf_tree" type="rqt_tf_tree" /> 
+
+  ### Node vizualization
+  <node name="rqt_graph" pkg="rqt_graph" type="rqt_graph" /> 
+
+  ### Topic
+  <node name="rqt_topic" pkg="rqt_topic" type="rqt_topic" />
+
+  <!-- ### RVIZ
+  <include file="$(find agbot_0)/launch/include/rviz.launch">
+    <arg name="model" default="$(find agbot_0)/urdf/sim_model.xacro" />
+    <arg name="rvizconfig" default="$(find agbot_0)/config/simulation_test.rviz" />
+  </include>  -->
+
+
+  ### Emlid Reach Node (GPS building nmea_navsat_driver from source)
+  <!-- See catkin_ws/src/agbot_0/ -->
+  <!-- <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
+    <arg name="port" default="/dev/ttyACM0"/> ### Depends on the machine usb port WARNING this can change
+    <arg name="baud" default="9600"/>
+    <arg name="frame_id" default="gps" />
+    <arg name="gps_topic_name" default="/gps/fix"/>
+    <arg name="node_name" default="reach_rs_gps"/>
+  </include> -->
+
+  ### map to odom to robot_base to sensor (where map to odom is done by ekf global with gps)   
+  <!-- <node pkg="tf2_ros" type  ="static_transform_publisher" name="base_to_gps_tf" args="-0.050 -0.076 0.750 0 0 0 robot_base sensor" /> -->
+  <!-- <node pkg="tf2_ros" type  ="static_transform_publisher" name="odom_to_base_tf" args="0 0 0 0 0 0 odom robot_base" /> -->
+  <node pkg="tf2_ros" type  ="static_transform_publisher" name="base_to_base_link" args="0 0 0 0 0 0 base_link robot_base" />
+
+  ### NAVSAT Transform Node
+  <node pkg="robot_localization" type="navsat_transform_node"
+      name="navsat_transform_node"  respawn="true" output="screen">
+    <!--rosparam command="load" file="$(find robot_localization)/params/navsat_transform_template.yaml" -->
+
+    <!-- http://www.magnetic-declination.com/-->
+    <!-- https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml-->
+    ###This parameter apperars not to affect heading
+    <param name="magnetic_declination_radians" value="0.0"/> <!-- Indianapolis -4*49'= -0.0840666923  Toronto -0.18238691 -->
+
+    <param name="zero_altitude" value="true" /> 
+    <param name="broadcast_utm_transform" value="true" />
+    <param name="publish_filtered_gps" value="true" />
+
+    <!-- wait 5 secs before calculating the transform from GPS coordinates to robot’s world frame. -->
+    <!--<param name="delay" value="5"/> -->
+
+    <!-- Makefsure wait_for_datum is false to use sensors for
+    robot’s current pose estimate in its world frame,
+    an earth-referenced heading,
+    and a geographic coordinate -->
+    #### The datum (global frame origin) can be specified via the datum parameter
+    <!-- <param name="wait_for_datum" value="true"/> -->
+    <!-- <rosparam param="datum">[39.78020, -86.16289, 0.0, map, robot_base]</rosparam> -->
+
+    <!-- If IMU reads 0 facing magnetic north -->
+    <!-- using  below config so that imu reads 0 when facing east -->
+    ###This parameter appears not to affect heading
+    <param name="yaw_offset" value="0.0"/>
+
+    <param name="broadcast_utm_transform" value="true" />
+    <!-- OUTPUT TOPICS -->
+    <!-- <remap from="/odometry/gps" to="/odometry/filtered_gps"/> -->
+    <!-- <remap from="/gps/filtered" to="/gps/filtered"/> -->
+    <!-- INPUT TOPICS -->
+    <!-- <remap from="/gps/fix" to="/gps/fix"/> -->
+    <!-- <remap from="imu/data/" to="/imu/data_fixed"/> -->
+    <!-- #remap from="/odometry/filtered" to="/odometry/filtered_global"/> -->
+  </node>
+
+
+  <!-- GLOBAL_EKF_LOCALIZATION -->
+  ### Global ekf should perfrom the map to odom transform using GPS+IMU fused sensor data
+  ### The map frame is a good long term reference but suffers from discreet jumps
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_global" output="screen" >
+    <param name="frequency" value="3"/>
+    <param name="world_frame" value="map"/> ### world_frame must be map for global state estimation 
+    <param name="map_frame" value="map"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="base_link_frame" value="base_link"/>
+    <param name="two_d_mode" value="true"/>
+    <param name="print_diagnostics" value="true"/>
+
+    <!-- GLOBAL EKF GPS ODOMETRY -->  
+    ### must use odom# prefix
+    <param name="odom0" value="/gps/fix"/>
+    <rosparam param="odom0_config">[true,true,false,
+                                   false, false, false,
+                                   false, false, false,
+                                   false, false, flase,
+                                   false, false, false]</rosparam> 
+
+    <!-- Local EKF IMU ODOMETRY -->  
+    ### must use odom# prefix
+    <param name="imu0" value="/imu/data"/>
+    <rosparam param="imu0_config">[false,false,false,
+                                   true, true, true,
+                                   false, false, false,
+                                   false, false, flase,
+                                   false, false, false]</rosparam>
+
+  </node>  
+
+
+  <!-- LOCAL_EKF_LOCALIZATION -->
+  ### Local EKF should perfom the odom to base_link transform using continuous sensor data (ie. anything expect GPS or the like)
+  ### The odom frame is good for short term reference but suffers from dift over time
+  ### At the start odom frame and map frame should be identical 
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_local" output="screen" >
+    <param name="frequency" value="3"/>
+    <param name="world_frame" value="odom"/> ### world_frame must be odom for local state estimation
+    <param name="map_frame" value="map"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="base_link_frame" value="base_link"/>
+    <param name="two_d_mode" value="true"/>
+    <param name="print_diagnostics" value="true"/>
+
+    <!-- Local EKF IMU ODOMETRY -->  
+    ### must use odom# prefix
+    <param name="imu0" value="/imu/data"/>
+    <rosparam param="imu0_config">[false,false,false,
+                                   true, true, true,
+                                   false, false, false,
+                                   false, false, flase,
+                                   false, false, false]</rosparam>
+  </node>  
+
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 world map 100" -->
+
+</launch>
