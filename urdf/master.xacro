@@ -168,6 +168,8 @@
     <child link="back_right_wheel"/>
     <origin xyz="0 ${-(wheel_length+width)/2-wheel_offset} ${wheel_radius}"/>
     <axis xyz="0 1 0"/>
+    <!--value = multiplier * other_joint_value + offset-->
+    <mimic joint="base_to_back_left_wheel" multiplier="10" offset="0" />
   </joint>
 
   <link name="back_right_wheel">
@@ -195,50 +197,10 @@
     </inertial> 
   </link>
 
-
-<!-- Virtual Thrid Wheel (Based on a Tricycle Kinematic Model) -->
-<!-- Thrid Joint Description-->
-<joint name="third_wheel_joint" type="continuous"> ## fixed type for testing
-  <parent link="robot_base"/>
-  <child link="third_wheel_link"/>
-  <origin xyz="${wheelbase} 0 ${wheel_radius}"/>
-  <axis xyz="0 0 1"/>
-</joint>
-  <!--Third Wheel Link Description-->
-<link name="third_wheel_link">
-  <visual>
-    <geometry>
-      <cylinder radius="${wheel_radius}" length="${wheel_length/4}"/>
-    </geometry>
-    <material name="redish">
-      <color rgba="1 0 0 0.5"/>
-    </material>
-    <origin rpy="${pi/2} 0 0"/>
-  </visual>
-  <collision>
-    <geometry>
-      <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
-    </geometry>
-    <material name="black"/>
-    <origin rpy="${pi/2} 0 0"/>
-  </collision>
-  <inertial>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <mass value="1"/>
-    <inertia
-      ixx="1.0" ixy="0.0" ixz="0.0"
-      iyy="1.0" iyz="0.0"
-      izz="1.0"/>
-    </inertial> 
-</link>
-
-
-
-
 <!-- Front left wheel description -->
   ### base to 
   ### front left wheel steering hinge joint (this pivots the wheel direction)
-  <joint name="base_to_front_left_hinge" type="continuous"> ## fixed type for testing
+  <joint name="base_to_front_left_hinge" type="coninuous"> ## fixed type for testing
     <parent link="robot_base"/>
     <child link="front_left_hinge"/>
     <origin xyz="${wheelbase} ${(width)/2+wheel_offset} ${wheel_radius}"/>
@@ -312,7 +274,7 @@
   <joint name="base_to_front_right_hinge" type="continuous"> ## fixed type for testing
     <parent link="robot_base"/>
     <child link="front_right_hinge"/>
-      <origin xyz="${wheelbase} ${-(width)/2-wheel_offset} ${wheel_radius}"/>
+    <origin xyz="${wheelbase} ${-(width)/2-wheel_offset} ${wheel_radius}"/>
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -325,7 +287,7 @@
       <material name="red"/>
       <origin rpy="0 0 0"/>
     </visual>
-    <collision> 
+    <collision>
       <geometry>
         <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
@@ -377,41 +339,6 @@
     </inertial> 
   </link>
 
- <gazebo reference="sensor">
-    <material>Gazebo/Orange</material>
-  </gazebo>
 
-  <gazebo>
-    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
-      <alwaysOn>true</alwaysOn>
-      <bodyName>imu_sensor</bodyName>
-      <frameName>imu_sensor</frameName>
-      <topicName>/imu/data</topicName>
-      <serviceName>imu_service</serviceName>
-      <gaussianNoise>0.0</gaussianNoise>
-      <updateRate>20.0</updateRate>
-    </plugin>
-
-    <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so">
-        <updateRate>4.0</updateRate>
-        <bodyName>gps_sensor</bodyName>
-        <frameId>gps_sensor</frameId>
-        <topicName>/gps/fix</topicName>
-        <velocityTopicName>/gps/fix_velocity</velocityTopicName>
-        <referenceLatitude>39.78020</referenceLatitude>
-        <referenceLongitude>-86.16289</referenceLongitude>
-        <referenceHeading>90</referenceHeading>
-        <referenceAltitude>10</referenceAltitude>
-        <offset>0 0 0</offset>
-        <drift>0.001 0.001 0.001</drift>
-        <gaussianNoise>5.0 5.0 5.0</gaussianNoise>
-        <velocityDrift>0.001 0.001 0.001</velocityDrift>
-        <velocityGaussianNoise>0.5 0.5 0.5</velocityGaussianNoise>
-<!--                <drift>0.001 0.001 0.001</drift>-->
-<!--                <gaussianNoise>0.01 0.01 0.01</gaussianNoise>-->
-<!--                <velocityDrift>0 0 0</velocityDrift>-->
-<!--                <velocityGaussianNoise>0.05 0.05 0.05</velocityGaussianNoise>-->
-    </plugin>
-  </gazebo>
 
 </robot>

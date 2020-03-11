@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-
-  <arg name="model" default="$(find agbot_0)/description/rc-car-model.urdf" />
+  
+  <arg name="model" default="$(find agbot_0)/urdf/master.xacro" />
+  <!-- <arg name="model" default="$(find agbot_0)/description/rc-car-model.urdf" /> -->
   <arg name="gui" default="true" />
   <arg name="rvizconfig" default="$(find agbot_0)/config/test0.rviz" />
 

@@ -11,7 +11,7 @@
 
    ### RUN sudo docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
   <include file="$(find agbot_0)/launch/include/mapviz.launch" >
-    <arg name="xy_origin_initilization" default="stutz"/> <!-- "auto"(will use gps) "stutz"(if indoors)  -->>
+    <arg name="xy_origin_initilization" default="auto"/> <!-- "auto"(will use gps) "stutz"  "beck_ag_center"  -->>
   </include>
 
   <!-- <include file="$(find agbot_0)/launch/include/tf_and_node.launch" /> -->
@@ -43,8 +43,8 @@
         <arg name="joy_dev"             default="/dev/input/js0" />
         <arg name="ackermann_command"   default="/ackermann"/>
         <arg name="twist_command"       default="/roboclaw/cmd_vel"/>
-        <arg name="max_forward_vel"     default="0.3"/> # in m/s
-        <arg name="max_reverse_vel"     default="0.1"/> # in m/s
+        <arg name="max_forward_vel"     default="2.0"/> # in m/s
+        <arg name="max_reverse_vel"     default="2.0"/> # in m/s
         <arg name="max_steering_angle"  default="0.7853982"/> # in radians (45 deg)
         <arg name="joy_msgs"            default="/joy"/>
         <arg name="wheel_base"          default="1.18"/> # distance between front and back tires in meters
@@ -69,11 +69,11 @@
       ### Emlid Reach (GPS building nmea_navsat_driver from source)
       <!-- See catkin_ws/src/agbot_0/ -->
       <include file="$(find agbot_0)/launch/include/emlid_gps.launch" >
-        <arg name="port" default="/dev/reach_rs_plus"/>
+        <arg name="port" default="/dev/reach_m_plus"/>
         <arg name="baud" default="4800"/>
         <arg name="frame_id" default="gps" />
         <arg name="gps_topic_name" default="/gps/fix"/>
-        <arg name="node_name" default="reach_rs_gps"/>
+        <arg name="node_name" default="reach_m_gps"/>
       </include>
 
       <!--

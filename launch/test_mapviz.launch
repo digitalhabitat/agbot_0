@@ -53,9 +53,12 @@
     <!-- Spawn the example robot with simulated gps data -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find agbot_0)/urdf/master_sim.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param /robot_description -model example"/>
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+  
+  <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
   <param name="publish_frequency" type="double" value="30.0" />
-  </node>
+  </node> -->
+
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
 
   ### wgs84 to map transfrom node 
   ### (this is needed initialize map frame with wgs84 frame used by mapviz)
@@ -94,11 +97,11 @@
   ### Topic
   <node name="rqt_topic" pkg="rqt_topic" type="rqt_topic" />
 
-  <!-- ### RVIZ
+  ### RVIZ
   <include file="$(find agbot_0)/launch/include/rviz.launch">
-    <arg name="model" default="$(find agbot_0)/urdf/sim_model.xacro" />
+    <arg name="model" default="$(find agbot_0)/urdf/master_sim.xacro" />
     <arg name="rvizconfig" default="$(find agbot_0)/config/simulation_test.rviz" />
-  </include>  -->
+  </include> 
 
 
   ### Emlid Reach Node (GPS building nmea_navsat_driver from source)

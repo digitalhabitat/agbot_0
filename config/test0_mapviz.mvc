@@ -9,9 +9,9 @@ show_status_bar: true
 show_capture_tools: true
 window_width: 1920
 window_height: 1056
-view_scale: 0.4121431
-offset_x: 0
-offset_y: 0
+view_scale: 0.6450499
+offset_x: -26.73451
+offset_y: -7.11235
 use_latest_transforms: true
 background: "#a0a0a4"
 displays:
@@ -34,7 +34,7 @@ displays:
           name: tesy
           type: wmts
       bing_api_key: ""
-      source: Stamen (toner)
+      source: Stamen (terrain)
   - type: mapviz_plugins/navsat
     name: new display
     config:
@@ -57,3 +57,15 @@ displays:
       buffer_size: 2
       static_arrow_sizes: false
       arrow_size: 500
+  - type: mapviz_plugins/robot_image
+    name: new display
+    config:
+      visible: false
+      collapsed: false
+      frame: robot_base
+      image: /home/mike/digitalhabitat.github.io/images/ricky-dog.png
+      width: 20
+      height: 20
+      offset_x: 0
+      offset_y: 0
+      ratio: equal
