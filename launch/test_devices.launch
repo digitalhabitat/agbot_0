@@ -17,6 +17,18 @@
   #  - baselink_to_robot_base static transform (typical tf stuff)             #
   #                                                                           #
   ############################################################################# 
+    
+  ### RVIZ
+  <include file="$(find agbot_0)/launch/include/rviz.launch">
+    <arg name="model" default="$(find agbot_0)/urdf/master_sim.xacro" />
+    <arg name="rvizconfig" default="$(find agbot_0)/config/simulation_test.rviz" />
+  </include> 
+
+   ###  TF tree vizualization
+  <node name="rqt_tf_tree" pkg="rqt_tf_tree" type="rqt_tf_tree" /> 
+
+  ### Node vizualization
+  <node name="rqt_graph" pkg="rqt_graph" type="rqt_graph" /> 
 
   ### Roboclaw
   <include file="$(find agbot_0)/launch/include/roboclaw.launch">
